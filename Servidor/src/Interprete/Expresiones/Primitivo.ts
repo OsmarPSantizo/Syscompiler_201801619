@@ -1,0 +1,35 @@
+import Nodo from "../AST/Nodo";
+import Controlador from "../Controlador";
+import { Expresion } from "../Interfaces/Expresion";
+import TablaSimbolos from "../TablaSimbolos/TablaSimbolos";
+import Tipo, { tipo } from "../TablaSimbolos/Tipo";
+
+export default class Primitivo implements Expresion{
+
+    public valor_primitivo : any;
+    public linea : number;
+    public columna : number;
+    public tipo : Tipo;
+
+    /**
+     * 
+     */
+    constructor(valor_primitivo : any, tipo : string, linea : number,columna : number ){
+        this.valor_primitivo = valor_primitivo;
+        this.linea = linea;
+        this.columna = columna;
+        this.tipo = new Tipo(tipo);
+        
+    }
+
+    getTipo(controlador: Controlador, ts: TablaSimbolos): tipo {
+        return this.tipo.n_tipo;
+    }
+    getValor(controlador: Controlador, ts: TablaSimbolos) {
+        return this.valor_primitivo;
+    }
+    recorrer(): Nodo {
+        throw new Error("Method not implemented.");
+    }
+
+}
