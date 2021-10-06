@@ -3,7 +3,7 @@ import Nodo from "../../AST/Nodo";
 import Controlador from "../../Controlador";
 import { Expresion } from "../../Interfaces/Expresion";
 import TablaSimbolos from "../../TablaSimbolos/TablaSimbolos";
-import { tipo } from "../../TablaSimbolos/Tipo";
+import Tipo, { tipo } from "../../TablaSimbolos/Tipo";
 import Operacion, { Operador } from "./Operacion";
 
 export default class Aritmetica extends Operacion implements Expresion{
@@ -40,6 +40,7 @@ export default class Aritmetica extends Operacion implements Expresion{
         }
 
         switch (this.operador) {
+//SUMA
             case Operador.SUMA:
                 if(tipo_exp1 == tipo.ENTERO){
                     if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.BOOLEAN || tipo_exp2 == tipo.CARACTER){
@@ -83,7 +84,137 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }
                 }
                 break;
-        
+// RESTA
+            case Operador.RESTA:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.BOOLEAN || tipo_exp2 == tipo.CARACTER){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.BOOLEAN || tipo_exp2 == tipo.CARACTER){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else if(tipo_exp1 == tipo.BOOLEAN){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else if (tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR
+                    }
+                }
+                break;
+// MULTIPLICACION
+            case Operador.MULTIPLICACION:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.CARACTER){
+                        return tipo.ENTERO
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR
+                    }
+                }else if(tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR
+                    }
+                }
+                break;
+//DIVISON
+            case Operador.DIVISION:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE|| tipo_exp2 == tipo.CARACTER){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR
+                    }
+                }else if(tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }
+                break;
+//POTENCIA
+            case Operador.POT:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.DOBLE;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR
+                    }
+                }
+                break;
+//MODULO
+            case Operador.MOD:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.DOBLE;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE
+                    }else{
+                        return tipo.ERROR
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.DOBLE;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR
+                    }
+                }
+                break;
+            case Operador.UNARIO:
+                if(tipo_exp1 == tipo.ENTERO){
+                    return tipo.ENTERO;
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    return tipo.DOBLE;
+                }else{
+                    return tipo.ERROR
+                }
+                break;
             default:
                 break;
         }
@@ -104,6 +235,8 @@ export default class Aritmetica extends Operacion implements Expresion{
         if(this.expU == false){
             tipo_exp1 = this.exp1.getTipo(controlador,ts); // Me guarda el entero
             tipo_exp2 = this.exp2.getTipo(controlador,ts); // Me guarda el doble
+            
+            tipo_expU = tipo.ERROR;
 
             valor_exp1 = this.exp1.getValor(controlador,ts); // 1
             valor_exp2 = this.exp2.getValor(controlador,ts); // 2.5
@@ -116,6 +249,7 @@ export default class Aritmetica extends Operacion implements Expresion{
             
         }
         switch (this.operador) {
+//SUMA
             case Operador.SUMA:
                 if(tipo_exp1 == tipo.ENTERO){
                     if(tipo_exp2 == tipo.ENTERO){
@@ -202,7 +336,191 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }
                 }
                 break;
-        
+                
+//RESTA
+
+            case Operador.RESTA:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 - valor_exp2;
+                    }else if(tipo_exp2 == tipo.BOOLEAN){
+                        let num_boleano = 1;
+                        if (valor_exp2 == false){
+                            num_boleano = 0
+                        }
+                        return valor_exp1 - num_boleano;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp2.charCodeAt(0);
+                        return valor_exp1 - num_ascci;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 - valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 - valor_exp2;
+                    }else if (tipo_exp2 == tipo.DOBLE)  {
+                        return valor_exp1 - valor_exp2;
+                    }else if(tipo_exp2 == tipo.BOOLEAN){
+                        let num_boleano = 1;
+                        if(valor_exp2 == false){
+                            num_boleano = 0
+                        }
+                        return valor_exp1 - num_boleano;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp2.charCodeAt(0);
+                        return valor_exp1 - num_ascci;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.BOOLEAN){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        let num_boleano = 1;
+                        if(valor_exp2 == false){
+                            num_boleano = 0
+                        }
+                        return num_boleano - valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        let num_boleano = 1;
+                        if(valor_exp2 == false){
+                            num_boleano = 0
+                        }
+                        return num_boleano - valor_exp2
+                    }else{
+                        return null;
+                    }
+                }else if (tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return num_ascci - valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return num_ascci - valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }
+                break;
+
+//MULTI                
+            case Operador.MULTIPLICACION:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 * valor_exp2;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp2.charCodeAt(0);
+                        return valor_exp1 * num_ascci;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 * valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 * valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 * valor_exp2;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp2.charCodeAt(0);
+                        return valor_exp1 * num_ascci;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return num_ascci * valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return num_ascci * valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }
+                break;
+//DIVISION
+
+            case Operador.DIVISION:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 / valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 / valor_exp2;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return valor_exp1 / num_ascci;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 / valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 / valor_exp2;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return valor_exp1 / num_ascci;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
+                        return tipo.ENTERO;
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }
+                break;
+            
+//POTENCIA
+            case Operador.POT:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 ** valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 ** valor_exp2;
+                    }else{
+                        return null
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 ** valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 ** valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }
+                break;
+//MODULO
+            case Operador.MOD:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 % valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 % valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 % valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 % valor_exp2;
+                    }else{
+                        return null;
+                    }
+                }
+                break;
+            case Operador.UNARIO:
+                if(tipo_expU == tipo.ENTERO || tipo_expU == tipo.DOBLE){
+                    return -valor_expU;
+                }else{
+                    return null;
+                }
+                break;
+
             default:
                 break;
         }

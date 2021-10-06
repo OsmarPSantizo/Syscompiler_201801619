@@ -138,7 +138,7 @@ e
     | e OR e
     | e NOT
     | MENOS e %prec UMINUS      {$$ = new aritmetica.default($2, 'UNARIO', null, $1.first_line, $1.last_line, true);}
-    | PARA e PARC
+    | PARA e PARC               {$$ = $2;}
     | DECIMAL                   {$$ = new primitivo.default(Number($1),'DOBLE',$1.first_line, $1.last_line);}
     | ENTERO                    {$$ = new primitivo.default(Number($1),'ENTERO',$1.first_line, $1.last_line);}
     | ID

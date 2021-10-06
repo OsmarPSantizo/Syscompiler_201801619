@@ -116,6 +116,9 @@ break;
 case 20:
 this.$ = new aritmetica.default($$[$0], 'UNARIO', null, $$[$0-1].first_line, $$[$0-1].last_line, true);
 break;
+case 21:
+this.$ = $$[$0-1];
+break;
 case 22:
 this.$ = new primitivo.default(Number($$[$0]),'DOBLE',$$[$0].first_line, $$[$0].last_line);
 break;

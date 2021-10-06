@@ -35,6 +35,8 @@ export default class Tipo{
             return tipo.CARACTER;
         }else if(this.nombre_tipo == 'CADENA'){
             return tipo.CADENA;
+        }else if(this.nombre_tipo == 'BOOLEAN'){
+            return tipo.BOOLEAN;
         }else if(this.nombre_tipo == 'VOID'){
             return tipo.CADENA;
         }else{
