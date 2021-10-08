@@ -1,0 +1,88 @@
+
+import Errores from "../AST/Errores";
+import Nodo from "../AST/Nodo";
+import Controlador from "../Controlador";
+import { Expresion } from "../Interfaces/Expresion";
+import { Instruccion } from "../Interfaces/Instruccion";
+import Simbolo from "../TablaSimbolos/Simbolo";
+import TablaSimbolos from "../TablaSimbolos/TablaSimbolos";
+import Tipo, { tipo } from "../TablaSimbolos/Tipo";
+
+
+
+export default class Declaracion implements Instruccion{
+    //int x,y,z = 0;
+    //int a = 9;
+    //boolean verdadero;
+
+    public type : Tipo;
+    public lista_ids : Array<string>;
+    public expresion : Expresion;
+
+    public linea : number;
+    public columna : number;
+
+    constructor(type : Tipo, lista_ids : Array<string>,expresion: any,linea : number, columna: number){
+        this.type = type;
+        this.lista_ids = lista_ids;
+        this.expresion = expresion;
+        this.linea = linea;
+        this.columna = columna;
+        
+    }
+
+    ejecutar(controlador: Controlador, ts: TablaSimbolos){
+        for(let id of this.lista_ids){
+            //1er paso. Verificar si existe en la tabla actual
+            if(ts.existeEnActual(id)){
+                let error = new Errores("Semantico",`La variable ${id} ya existe en el entorno actual, no se puede declarar otra vez.`,this.linea,this.columna);
+                controlador.errores.push(error);
+                controlador.append(`ERROR: Semántico, La variable ${id} ya existe en el entorno actual, no se puede declarar otra vez. En la linea ${this.linea} y columna ${this.columna}`);
+                continue;
+            }
+            if(this.expresion != null){
+                let tipo_valor = this.expresion.getTipo(controlador,ts);
+                let valor = this.expresion.getValor(controlador,ts);
+                console.log(tipo_valor);
+                    
+                if(tipo_valor == this.type.n_tipo){ // n tipo sirve para obtener el tipo que declaramos con enum
+                    
+                    
+                    let nuevo_simbolo = new  Simbolo(1,this.type,id,valor);
+                    ts.agregar(id, nuevo_simbolo);
+
+                }else{
+                    let error = new Errores("Semantico",`La variable ${id} posee un tipo no valido.`,this.linea,this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(`ERROR: Semántico, La variable ${id}  posee un tipo no valido. En la linea ${this.linea} y columna ${this.columna}`);
+                }
+
+            }else{
+                let nuevo_simbolo = new  Simbolo(1,this.type,id,null);
+                ts.agregar(id, nuevo_simbolo);
+                if(this.type.n_tipo == tipo.ENTERO){
+                    nuevo_simbolo.setValor(0);
+                }else if(this.type.n_tipo == tipo.DOBLE){
+                    nuevo_simbolo.setValor(0.0);
+                }else if(this.type.n_tipo == tipo.BOOLEAN){
+                    nuevo_simbolo.setValor(true);
+                }else if(this.type.n_tipo == tipo.CADENA){
+                    nuevo_simbolo.setValor("");
+                }else if(this.type.n_tipo == tipo.CARACTER){
+                    nuevo_simbolo.setValor('0');
+                }
+
+            }
+        }
+        return null;
+
+    }
+    recorrer(): Nodo{
+        throw new Error("Method not implemented.")
+    }
+
+
+
+
+
+}

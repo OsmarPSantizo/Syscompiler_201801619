@@ -3,6 +3,8 @@ const app: express.Application = express();
 
 const cors = require('cors');
 
+const port = process.env.PORT || 3000;
+
 //middlewares
 app.use(cors());
 app.use(express.json({limit : "50mb"}))
@@ -12,6 +14,11 @@ app.use(express.json({limit : "50mb"}))
 app.use("/api", require("./routes/routes"));
 
 
-app.listen(3000, function(){
-    console.log("Interprete escuchando el puerto 3000")
-})
+app.listen(port, function(){
+    console.log(`Interprete escuchando el el puerto ${port}`)
+});
+
+app.get('/express_backend',(req,res) =>{
+    res.send({express: 'YOUR EXPRESS BACKEND IS CONECTED TO REACT'})
+});
+

@@ -206,6 +206,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }
                 }
                 break;
+//UNARIO
             case Operador.UNARIO:
                 if(tipo_exp1 == tipo.ENTERO){
                     return tipo.ENTERO;
@@ -235,7 +236,7 @@ export default class Aritmetica extends Operacion implements Expresion{
         if(this.expU == false){
             tipo_exp1 = this.exp1.getTipo(controlador,ts); // Me guarda el entero
             tipo_exp2 = this.exp2.getTipo(controlador,ts); // Me guarda el doble
-            
+
             tipo_expU = tipo.ERROR;
 
             valor_exp1 = this.exp1.getValor(controlador,ts); // 1
@@ -513,6 +514,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }
                 }
                 break;
+//UNARIO
             case Operador.UNARIO:
                 if(tipo_expU == tipo.ENTERO || tipo_expU == tipo.DOBLE){
                     return -valor_expU;
