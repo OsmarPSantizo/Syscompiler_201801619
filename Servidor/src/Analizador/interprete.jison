@@ -31,6 +31,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 
 "++"                 { console.log("Reconocio : " + yytext);  return 'INCRE' } 
 "=="                 { console.log("Reconocio : " + yytext);  return 'IGUALIGUAL' } 
+"!="                  { console.log("Reconocio : " + yytext);  return 'DIFERENTE' } 
 
 
 
@@ -58,7 +59,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 "<"                  { console.log("Reconocio : " + yytext);  return 'MENORQUE' } 
 ">="                  { console.log("Reconocio : " + yytext);  return 'MAYORIGUAL' } 
 ">"                  { console.log("Reconocio : " + yytext);  return 'MAYORQUE' } 
-"!="                  { console.log("Reconocio : " + yytext);  return 'DIFERENTE' } 
+
 
 
 /* Operadores logicos */
@@ -103,6 +104,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
     const evaluar = require('../Interprete/Evaluar');
     const aritmetica = require('../Interprete/Expresiones/Operaciones/Aritmetica');
     const primitivo = require('../Interprete/Expresiones/Primitivo');
+    const relacional = require('../Interprete/Expresiones/Operaciones/Relacionales')
 
     const writeline = require('../Interprete/Instrucciones/Writeline');
     const declaracion = require('../Interprete/Instrucciones/Declaracion');
@@ -165,12 +167,12 @@ e
     | e DIV e                   {$$ = new aritmetica.default($1, '/', $3, $1.first_line, $1.last_line, false);}
     | e POT e                   {$$ = new aritmetica.default($1, '^', $3, $1.first_line, $1.last_line, false);}
     | e MOD e                   {$$ = new aritmetica.default($1, '%', $3, $1.first_line, $1.last_line, false);}
-    | e MAYORIGUAL e 
-    | e MAYORQUE e
-    | e MENORIGUAL e
-    | e MENORQUE e
-    | e IGUALIGUAL e
-    | e DIFERENTE e
+    | e MAYORIGUAL e            {$$ = new relacional.default($1, '>=', $3, $1.first_line,$1.last_line, false);}
+    | e MAYORQUE e              {$$ = new relacional.default($1, '>', $3, $1.first_line,$1.last_line, false);}
+    | e MENORIGUAL e            {$$ = new relacional.default($1, '<=', $3, $1.first_line,$1.last_line, false);}
+    | e MENORQUE e              {$$ = new relacional.default($1, '<', $3, $1.first_line,$1.last_line, false);}
+    | e IGUALIGUAL e            {$$ = new relacional.default($1, '==', $3, $1.first_line,$1.last_line, false);}
+    | e DIFERENTE e             {$$ = new relacional.default($1, '!=', $3, $1.first_line,$1.last_line, false);}
     | e AND e 
     | e OR e
     | e NOT

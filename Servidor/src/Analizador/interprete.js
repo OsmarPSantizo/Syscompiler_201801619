@@ -140,6 +140,24 @@ break;
 case 21:
 this.$ = new aritmetica.default($$[$0-2], '%', $$[$0], $$[$0-2].first_line, $$[$0-2].last_line, false);
 break;
+case 22:
+this.$ = new relacional.default($$[$0-2], '>=', $$[$0], $$[$0-2].first_line,$$[$0-2].last_line, false);
+break;
+case 23:
+this.$ = new relacional.default($$[$0-2], '>', $$[$0], $$[$0-2].first_line,$$[$0-2].last_line, false);
+break;
+case 24:
+this.$ = new relacional.default($$[$0-2], '<=', $$[$0], $$[$0-2].first_line,$$[$0-2].last_line, false);
+break;
+case 25:
+this.$ = new relacional.default($$[$0-2], '<', $$[$0], $$[$0-2].first_line,$$[$0-2].last_line, false);
+break;
+case 26:
+this.$ = new relacional.default($$[$0-2], '==', $$[$0], $$[$0-2].first_line,$$[$0-2].last_line, false);
+break;
+case 27:
+this.$ = new relacional.default($$[$0-2], '!=', $$[$0], $$[$0-2].first_line,$$[$0-2].last_line, false);
+break;
 case 31:
 this.$ = new aritmetica.default($$[$0], 'UNARIO', null, $$[$0-1].first_line, $$[$0-1].last_line, true);
 break;
@@ -321,6 +339,7 @@ parse: function parse(input) {
     const evaluar = require('../Interprete/Evaluar');
     const aritmetica = require('../Interprete/Expresiones/Operaciones/Aritmetica');
     const primitivo = require('../Interprete/Expresiones/Primitivo');
+    const relacional = require('../Interprete/Expresiones/Operaciones/Relacionales')
 
     const writeline = require('../Interprete/Instrucciones/Writeline');
     const declaracion = require('../Interprete/Instrucciones/Declaracion');
@@ -663,47 +682,47 @@ case 2: console.log("Reconocio : " + yy_.yytext);  return 'INCRE'
 break;
 case 3: console.log("Reconocio : " + yy_.yytext);  return 34 
 break;
-case 4: console.log("Reconocio : " + yy_.yytext);  return 22 
+case 4: console.log("Reconocio : " + yy_.yytext);  return 35 
 break;
-case 5: console.log("Reconocio : " + yy_.yytext);  return 23 
+case 5: console.log("Reconocio : " + yy_.yytext);  return 22 
 break;
-case 6: console.log("Reconocio : " + yy_.yytext);  return 'CORA' 
+case 6: console.log("Reconocio : " + yy_.yytext);  return 23 
 break;
-case 7: console.log("Reconocio : " + yy_.yytext);  return 'CORC' 
+case 7: console.log("Reconocio : " + yy_.yytext);  return 'CORA' 
 break;
-case 8: console.log("Reconocio : " + yy_.yytext);  return 19 
+case 8: console.log("Reconocio : " + yy_.yytext);  return 'CORC' 
 break;
-case 9: console.log("Reconocio : " + yy_.yytext);  return 13 
+case 9: console.log("Reconocio : " + yy_.yytext);  return 19 
 break;
-case 10: console.log("Reconocio : " + yy_.yytext);  return 'PI' 
+case 10: console.log("Reconocio : " + yy_.yytext);  return 13 
 break;
-case 11: console.log("Reconocio : " + yy_.yytext);  return 'E' 
+case 11: console.log("Reconocio : " + yy_.yytext);  return 'PI' 
 break;
-case 12: console.log("Reconocio : " + yy_.yytext);  return 11 
+case 12: console.log("Reconocio : " + yy_.yytext);  return 'E' 
 break;
-case 13: console.log("Reconocio : " + yy_.yytext);  return 24 
+case 13: console.log("Reconocio : " + yy_.yytext);  return 11 
 break;
-case 14: console.log("Reconocio : " + yy_.yytext);  return 25 
+case 14: console.log("Reconocio : " + yy_.yytext);  return 24 
 break;
-case 15: console.log("Reconocio : " + yy_.yytext);  return 26 
+case 15: console.log("Reconocio : " + yy_.yytext);  return 25 
 break;
-case 16: console.log("Reconocio : " + yy_.yytext);  return 27 
+case 16: console.log("Reconocio : " + yy_.yytext);  return 26 
 break;
-case 17: console.log("Reconocio : " + yy_.yytext);  return 28 
+case 17: console.log("Reconocio : " + yy_.yytext);  return 27 
 break;
-case 18: console.log("Reconocio : " + yy_.yytext);  return 38 
+case 18: console.log("Reconocio : " + yy_.yytext);  return 28 
 break;
-case 19: console.log("Reconocio : " + yy_.yytext);  return 29 
+case 19: console.log("Reconocio : " + yy_.yytext);  return 38 
 break;
-case 20: console.log("Reconocio : " + yy_.yytext);  return 32 
+case 20: console.log("Reconocio : " + yy_.yytext);  return 29 
 break;
-case 21: console.log("Reconocio : " + yy_.yytext);  return 33 
+case 21: console.log("Reconocio : " + yy_.yytext);  return 32 
 break;
-case 22: console.log("Reconocio : " + yy_.yytext);  return 30 
+case 22: console.log("Reconocio : " + yy_.yytext);  return 33 
 break;
-case 23: console.log("Reconocio : " + yy_.yytext);  return 31 
+case 23: console.log("Reconocio : " + yy_.yytext);  return 30 
 break;
-case 24: console.log("Reconocio : " + yy_.yytext);  return 35 
+case 24: console.log("Reconocio : " + yy_.yytext);  return 31 
 break;
 case 25: console.log("Reconocio : " + yy_.yytext);  return 37 
 break;
@@ -747,7 +766,7 @@ case 44:return 'ERROR'
 break;
 }
 },
-rules: [/^(?:\/\/.*)/i,/^(?:\/\*((\*+[^/*])|([^*]))*\**\*\/)/i,/^(?:\+\+)/i,/^(?:==)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\[)/i,/^(?:\])/i,/^(?:,)/i,/^(?:;)/i,/^(?:PI\b)/i,/^(?:E\b)/i,/^(?:=)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:\^)/i,/^(?:!)/i,/^(?:%)/i,/^(?:<=)/i,/^(?:<)/i,/^(?:>=)/i,/^(?:>)/i,/^(?:!=)/i,/^(?:\|\|)/i,/^(?:&&)/i,/^(?:!)/i,/^(?:evaluar\b)/i,/^(?:true\b)/i,/^(?:false\b)/i,/^(?:int\b)/i,/^(?:string\b)/i,/^(?:double\b)/i,/^(?:char\b)/i,/^(?:boolean\b)/i,/^(?:writeline\b)/i,/^(?:[0-9]+(\.[0-9]+)?\b)/i,/^(?:([0-9]+))/i,/^(?:([a-zñA-ZÑ_][a-zñA-ZÑ0-9_]*))/i,/^(?:(("((\\([\'\"\\nrt]))|([^\"\\]))*")))/i,/^(?:(('((\\([\'\"\\nrt]))|([^\'\\]))')))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
+rules: [/^(?:\/\/.*)/i,/^(?:\/\*((\*+[^/*])|([^*]))*\**\*\/)/i,/^(?:\+\+)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\[)/i,/^(?:\])/i,/^(?:,)/i,/^(?:;)/i,/^(?:PI\b)/i,/^(?:E\b)/i,/^(?:=)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:\^)/i,/^(?:!)/i,/^(?:%)/i,/^(?:<=)/i,/^(?:<)/i,/^(?:>=)/i,/^(?:>)/i,/^(?:\|\|)/i,/^(?:&&)/i,/^(?:!)/i,/^(?:evaluar\b)/i,/^(?:true\b)/i,/^(?:false\b)/i,/^(?:int\b)/i,/^(?:string\b)/i,/^(?:double\b)/i,/^(?:char\b)/i,/^(?:boolean\b)/i,/^(?:writeline\b)/i,/^(?:[0-9]+(\.[0-9]+)?\b)/i,/^(?:([0-9]+))/i,/^(?:([a-zñA-ZÑ_][a-zñA-ZÑ0-9_]*))/i,/^(?:(("((\\([\'\"\\nrt]))|([^\"\\]))*")))/i,/^(?:(('((\\([\'\"\\nrt]))|([^\'\\]))')))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],"inclusive":true}}
 });
 return lexer;
