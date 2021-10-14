@@ -3,7 +3,7 @@ const app: express.Application = express();
 
 const cors = require('cors');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3100;
 
 //middlewares
 app.use(cors());

@@ -1,3 +1,4 @@
+import Errores from "../../AST/Errores";
 import Nodo from "../../AST/Nodo";
 import Controlador from "../../Controlador";
 import { Expresion } from "../../Interfaces/Expresion";
@@ -20,167 +21,45 @@ export default class Relacional extends Operacion implements Expresion{
         tipo_exp2 = this.exp1.getValor(controlador,ts);
         
 
-        if(this.expU == false){
-            tipo_exp1 = this.exp1.getTipo(controlador,ts);
-            tipo_exp2 = this.exp2.getTipo(controlador,ts);
-            
-            if(tipo_exp1 == tipo.ERROR || tipo_exp2 == tipo.ERROR){
-                return tipo.ERROR;
-            }
+        tipo_exp1 = this.exp1.getTipo(controlador,ts);
+        tipo_exp2 = this.exp2.getTipo(controlador,ts);
 
-        }else{
-            tipo_exp1 = this.exp1.getTipo(controlador,ts);
-            if(tipo_exp1 == tipo.ERROR){
-                return tipo.ERROR;
-            }
-            tipo_exp2 = tipo.ERROR;
-            
+        if(tipo_exp1 == tipo.ERROR || tipo_exp2 == tipo.ERROR){
+            return tipo.ERROR
         }
 
-        switch (this.operador) {
-            case Operador.IGUALIGUAL:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.CARACTER){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else{
-                    return tipo.ERROR
-                }
- 
-            case Operador.DIFERENCIA:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.CARACTER){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else{
-                    return tipo.ERROR
-                }
-
-            case Operador.MENORQUE:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.CARACTER){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else{
-                    return tipo.ERROR
-                }
-            case Operador.MENORIGUAL:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.CARACTER){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else{
-                    return tipo.ERROR
-                }
-                
-            case Operador.MAYORQUE:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.CARACTER){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else{
-                    return tipo.ERROR
-                }
-            case Operador.MAYORIGUAL:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else if (tipo_exp1 == tipo.CARACTER){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
-                        return tipo.BOOLEAN
-                    }else{
-                        return tipo.ERROR
-                    }
-                }else{
-                    return tipo.ERROR
-                }
-            default:
-                break;
+        if(tipo_exp1 == tipo.ENTERO){
+            if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+                return tipo.BOOLEAN
+            }else{
+                return tipo.ERROR
+            }
+        }else if(tipo_exp1 == tipo.DOBLE){
+            if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+                return tipo.BOOLEAN
+            }else{
+                return tipo.ERROR
+            }
+        }else if(tipo_exp1 == tipo.CARACTER){
+            if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+                return tipo.BOOLEAN
+            }else{
+                return tipo.ERROR
+            }
+        }else if(tipo_exp1 == tipo.BOOLEAN){
+            if(tipo_exp2 == tipo.BOOLEAN){
+                return tipo.BOOLEAN
+            }else{
+                return tipo.ERROR
+            }
+        }else if(tipo_exp1 == tipo.CADENA){
+            if(tipo_exp2 == tipo.CADENA){
+                return tipo.BOOLEAN
+            }else{
+                return tipo.BOOLEAN
+            }
         }
         return tipo.ERROR;
-
-
-
-
     }
 
     getValor(controlador: Controlador, ts: TablaSimbolos){
@@ -192,22 +71,11 @@ export default class Relacional extends Operacion implements Expresion{
         let tipo_exp2: tipo;
         let tipo_expU: tipo;
 
-        if(this.expU == false){
-            tipo_exp1 = this.exp1.getTipo(controlador,ts); // Me guarda el entero
-            tipo_exp2 = this.exp2.getTipo(controlador,ts); // Me guarda el doble
-
-            tipo_expU = tipo.ERROR;
-
-            valor_exp1 = this.exp1.getValor(controlador,ts); // 1
-            valor_exp2 = this.exp2.getValor(controlador,ts); // 2.5
-        }else{
-            tipo_expU = this.exp1.getTipo(controlador,ts);
-            tipo_exp1 = tipo.ERROR;
-            tipo_exp2 = tipo.ERROR;
-
-            valor_expU = this.exp1.getValor(controlador,ts);
-            
-        }
+        tipo_exp1 = this.exp1.getTipo(controlador,ts); // Me guarda el entero
+        tipo_exp2 = this.exp2.getTipo(controlador,ts); // Me guarda el doble
+        valor_exp1 = this.exp1.getValor(controlador,ts); // 1
+        valor_exp2 = this.exp2.getValor(controlador,ts); // 2.5
+        
         switch (this.operador){
             case Operador.IGUALIGUAL:
                 if(tipo_exp1 == tipo.DOBLE){
@@ -217,6 +85,9 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 == num_ascci1
                     }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
                         return null;
                     }
                 }else if(tipo_exp1 == tipo.ENTERO){
@@ -226,7 +97,10 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 == num_ascci1
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
 
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -237,25 +111,50 @@ export default class Relacional extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
                         return num_ascci1 == valor_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }else if(tipo_exp1 == tipo.BOOLEAN){
                     if(tipo_exp2 == tipo.BOOLEAN){
-                        return valor_exp1 == valor_exp2
+                        let num_bool_exp1 = 1;
+                        if (valor_exp1 == false){
+                            num_bool_exp1 = 0;
+                        }
+                        let num_bool_exp2 = 1;
+                        if(valor_exp2 == false){
+                            num_bool_exp2 = 0;
+                        }
+                        return num_bool_exp1 == num_bool_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 == valor_exp2;
+                    }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }
+                break
             case Operador.DIFERENCIA:
                 if(tipo_exp1 == tipo.DOBLE){
-                    if(tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.ENTERO ){
-                        console.log("hice esto");
-                        
+                    if(tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.ENTERO ){                        
                         return valor_exp1 != valor_exp2;
                     }else if(tipo_exp2 == tipo.CARACTER){
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 != num_ascci1
                     }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
                         return null;
                     }
                 }else if(tipo_exp1 == tipo.ENTERO){
@@ -263,9 +162,12 @@ export default class Relacional extends Operacion implements Expresion{
                         return valor_exp1 != valor_exp2;
                     }else if(tipo_exp2 == tipo.CARACTER){
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
-                        return valor_exp1 != num_ascci1
+                        return valor_exp1 != num_ascci1;
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
 
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -274,17 +176,41 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci2 = valor_exp2.charCodeAt(0);
                         return num_ascci1 != num_ascci2;
                     }else if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
-                        return num_ascci1 != valor_exp2
+                        return num_ascci1 != valor_exp2;
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }else if(tipo_exp1 == tipo.BOOLEAN){
                     if(tipo_exp2 == tipo.BOOLEAN){
-                        return valor_exp1 != valor_exp2
+                        let num_bool_exp1 = 1;
+                        if (valor_exp1 == false){
+                            num_bool_exp1 = 0;
+                        }
+                        let num_bool_exp2 = 1;
+                        if(valor_exp2 == false){
+                            num_bool_exp2 = 0;
+                        }
+                        return num_bool_exp1 != num_bool_exp2;
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 != valor_exp2;
+                    }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }
+                break;
             case Operador.MENORQUE:
                 if(tipo_exp1 == tipo.DOBLE){
                     if(tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.ENTERO ){
@@ -294,6 +220,9 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 < num_ascci1
                     }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
                         return null;
                     }
                 }else if(tipo_exp1 == tipo.ENTERO){
@@ -303,7 +232,10 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 < num_ascci1
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
 
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -314,24 +246,51 @@ export default class Relacional extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
                         return num_ascci1 < valor_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }else if(tipo_exp1 == tipo.BOOLEAN){
                     if(tipo_exp2 == tipo.BOOLEAN){
-                        return valor_exp1 < valor_exp2
+                        let num_bool_exp1 = 1;
+                        if (valor_exp1 == false){
+                            num_bool_exp1 = 0;
+                        }
+                        let num_bool_exp2 = 1;
+                        if(valor_exp2 == false){
+                            num_bool_exp2 = 0;
+                        }
+                        return num_bool_exp1 < num_bool_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 < valor_exp2;
+                    }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
+                    }
+
                 }
+                break;
             case Operador.MENORIGUAL:
                 if(tipo_exp1 == tipo.DOBLE){
                     if(tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.ENTERO ){
-                        
                         return valor_exp1 <= valor_exp2;
                     }else if(tipo_exp2 == tipo.CARACTER){
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 <= num_ascci1
                     }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
                         return null;
                     }
                 }else if(tipo_exp1 == tipo.ENTERO){
@@ -341,7 +300,10 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 <= num_ascci1
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
 
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -352,24 +314,51 @@ export default class Relacional extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
                         return num_ascci1 <= valor_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }else if(tipo_exp1 == tipo.BOOLEAN){
                     if(tipo_exp2 == tipo.BOOLEAN){
-                        return valor_exp1 <= valor_exp2
+                        let num_bool_exp1 = 1;
+                        if (valor_exp1 == false){
+                            num_bool_exp1 = 0;
+                        }
+                        let num_bool_exp2 = 1;
+                        if(valor_exp2 == false){
+                            num_bool_exp2 = 0;
+                        }
+                        return num_bool_exp1 <= num_bool_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 <= valor_exp2;
+                    }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
+                    }
+
                 }
+                break;
             case Operador.MAYORQUE:
                 if(tipo_exp1 == tipo.DOBLE){
                     if(tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.ENTERO ){
-                        
                         return valor_exp1 > valor_exp2;
                     }else if(tipo_exp2 == tipo.CARACTER){
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 > num_ascci1
                     }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
                         return null;
                     }
                 }else if(tipo_exp1 == tipo.ENTERO){
@@ -379,7 +368,10 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 > num_ascci1
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
 
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -390,24 +382,51 @@ export default class Relacional extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
                         return num_ascci1 > valor_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }else if(tipo_exp1 == tipo.BOOLEAN){
                     if(tipo_exp2 == tipo.BOOLEAN){
-                        return valor_exp1 > valor_exp2
+                        let num_bool_exp1 = 1;
+                        if (valor_exp1 == false){
+                            num_bool_exp1 = 0;
+                        }
+                        let num_bool_exp2 = 1;
+                        if(valor_exp2 == false){
+                            num_bool_exp2 = 0;
+                        }
+                        return num_bool_exp1 > num_bool_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 > valor_exp2;
+                    }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
+                    }
+
                 }
+                break;
             case Operador.MAYORIGUAL:
                 if(tipo_exp1 == tipo.DOBLE){
                     if(tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.ENTERO ){
-                        
                         return valor_exp1 >= valor_exp2;
                     }else if(tipo_exp2 == tipo.CARACTER){
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 >= num_ascci1
                     }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
                         return null;
                     }
                 }else if(tipo_exp1 == tipo.ENTERO){
@@ -417,7 +436,10 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci1 = valor_exp2.charCodeAt(0);    
                         return valor_exp1 >= num_ascci1
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
 
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -428,20 +450,43 @@ export default class Relacional extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE){
                         return num_ascci1 >= valor_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
                 }else if(tipo_exp1 == tipo.BOOLEAN){
                     if(tipo_exp2 == tipo.BOOLEAN){
-                        return valor_exp1 >= valor_exp2
+                        let num_bool_exp1 = 1;
+                        if (valor_exp1 == false){
+                            num_bool_exp1 = 0;
+                        }
+                        let num_bool_exp2 = 1;
+                        if(valor_exp2 == false){
+                            num_bool_exp2 = 0;
+                        }
+                        return num_bool_exp1 >= num_bool_exp2
                     }else{
-                        return null
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
                     }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 >= valor_exp2;
+                    }else{
+                        let error = new Errores("Semantico",`Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter`,this.linea,this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(`ERROR: Semántico, Los tipos son incompatibles. Solo se pueden hacer operaciones entre entero-doble-caracter. En la linea ${this.linea} y columna ${this.columna}`);
+                        return null;
+                    }
+
                 }
             default:
                 break;
 
     }
-  
 
 }
     recorrer(): Nodo{

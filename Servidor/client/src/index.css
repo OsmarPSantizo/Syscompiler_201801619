@@ -34,3 +34,8 @@ textarea{
   color:white;
   border-radius: 5px;
 }
+
+.editor{
+  margin-left: 50px;
+  margin-right: 50px;
+}

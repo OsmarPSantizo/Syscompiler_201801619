@@ -1,17 +1,76 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import * as ReactBoostrap from "react-bootstrap";
 
+
+import CodeMirror from "@uiw/react-codemirror";
+
+
+
 class App extends Component {
-state = {
+  constructor(props){
+    super(props)
+    this.state = {
+      runCode: false,
+      outputText:'console.log("helloWorld")',
+      value:'Escribe tu codigo :3',
+      
+    };
+    this.handleChange = this.handleChange.bind(this);
+    
+  }
+
+  runCode = () =>{
+   
+    this.setState({runCode:true})
+
+    const data ={
+      "input" : this.state.outputText
+    }
+
+    fetch('http://localhost:3100/api/ejecutar',{
+      method: 'POST',
+      headers:{"Content-Type" : "application/json"},
+      body: JSON.stringify(data)
+      
+      
+    })
+      .then(response => response.json())
+      .then(data =>{
+        var datitos = JSON.stringify(data);
+        
+        this.setState({value : JSON.parse(datitos).consola})
+        console.log('recibido', data);
+
+      });
+    
+  }
+  state = {
     data: null
   };
 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  //subir archivos
+
+    fileSelectedHandler =event =>{
+      console.log(event);
+    }
+  
+
+
+ 
+
+ 
+
+// Conexión al backend###########
   componentDidMount() {
     this.callBackendAPI()
       .then(res => this.setState({ data: res.express }))
       .catch(err => console.log(err));
+       
   }
     // fetching the GET route from the Express server which matches the GET route from server.js
   callBackendAPI = async () => {
@@ -23,6 +82,9 @@ state = {
     }
     return body;
   };
+ 
+
+  
 
   render() {
     return (
@@ -36,7 +98,10 @@ state = {
   <ReactBoostrap.Navbar.Collapse id="responsive-navbar-nav">
     <ReactBoostrap.Nav className="me-auto">
       <ReactBoostrap.Nav.Link href="#features">Crear Archivos</ReactBoostrap.Nav.Link>
-      <ReactBoostrap.Nav.Link href="#pricing">Abrir Archivo</ReactBoostrap.Nav.Link>
+      <ReactBoostrap.Nav.Link >Abrir Archivo</ReactBoostrap.Nav.Link>
+ 
+      
+     
       <ReactBoostrap.Nav.Link href="#pricing">Guardar el Archivo</ReactBoostrap.Nav.Link>
       <ReactBoostrap.Nav.Link href="#pricing">Eliminar Pestaña</ReactBoostrap.Nav.Link>
       
@@ -65,21 +130,24 @@ state = {
           <div class ="col">
             <div class ="leftside">
             <h1>Editor</h1>
-              <textarea rows = "20" cols = "100" ></textarea>
+            <div class = "editor">
+              <CodeMirror value={this.state.outputText} height="460px"  theme = "dark" align = "left"  onChange={(value, viewUpdate) => {this.setState({runCode:false, outputText : value,}) }} />
               <br/>
-             <ReactBoostrap.Button variant="dark">Ejecutar</ReactBoostrap.Button>{' '}
+             <ReactBoostrap.Button variant="dark" onClick={this.runCode}>Ejecutar</ReactBoostrap.Button>{' '}
+
              <br/>
+             </div>
             </div>
+      
           </div>
 
           <div class ="col">
           <div class ="leftside">
           <h1>Consola</h1>
-            <textarea rows = "20" cols = "100" ></textarea>
+          <textarea rows = "19" cols = "100" value={this.state.value} onChange={this.handleChange}/>
+          
           </div>
           </div>
-      
-      
       
       </div>
      
