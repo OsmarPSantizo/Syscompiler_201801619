@@ -38,8 +38,6 @@ export default class Ternario implements Expresion{
             controlador.errores.push(error);
             controlador.append(`ERROR: Semántico, La condición no es booleana. En la linea ${this.linea} y columna ${this.columna}`);
             return null;
-
-            return null
         }
     }
     recorrer(): Nodo{
