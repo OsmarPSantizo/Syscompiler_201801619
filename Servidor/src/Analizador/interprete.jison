@@ -84,6 +84,12 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 "boolean"             {console.log("Reconocio: "+yytext); return 'BOOLEAN'}
 
 "writeline"             {console.log("Reconocio: "+yytext); return 'WRITELINE'}
+"tolower"             {console.log("Reconocio: "+yytext); return 'TOLOWER'}
+"toupper"             {console.log("Reconocio: "+yytext); return 'TOUPPER'}
+"truncate"             {console.log("Reconocio: "+yytext); return 'TRUNCATE'}
+"round"             {console.log("Reconocio: "+yytext); return 'ROUND'}
+"typeof"             {console.log("Reconocio: "+yytext); return 'TYPEOF'}
+"tostring"             {console.log("Reconocio: "+yytext); return 'TOSTRING'}
 
 "if"                    {console.log("Reconocio: "+yytext); return 'IF'}
 "else"                    {console.log("Reconocio: "+yytext); return 'ELSE'}
@@ -130,6 +136,12 @@ caracter      (\' ({escape2}|{aceptacion2})\')
     const logica = require('../Interprete/Expresiones/Operaciones/Logicas')
 
     const writeline = require('../Interprete/Instrucciones/Writeline');
+    const tolower = require('../Interprete/Instrucciones/Tolower');
+    const toupper = require('../Interprete/Instrucciones/Toupper');
+    const truncate = require('../Interprete/Instrucciones/FuncionesNativas/Truncate');
+    const round = require('../Interprete/Instrucciones/FuncionesNativas/Round');
+    const typeofF = require('../Interprete/Instrucciones/FuncionesNativas/Typeof');
+    const tostringg = require('../Interprete/Instrucciones/FuncionesNativas/Tostring');
     const declaracion = require('../Interprete/Instrucciones/Declaracion');
     const asignacion = require('../Interprete/Instrucciones/Asignacion');
     const Ifs = require('../Interprete/Instrucciones/SentenciasdeControl/Ifs');
@@ -236,6 +248,9 @@ lista_ids : lista_ids COMA ID           {$$ = $1; $$.push($3);}
 /// Writeline
 writeline : WRITELINE PARA e PARC PYC  {$$ = new writeline.default($3,@1.first_line,@1.last_column);}
           ;
+
+tolower : TOLOWER PARA e PARC PYC   {$$ = new tolower.default($3,@1.first_line,@1.last_column);}
+        ;
 /// Asignacion
 asignacion : ID IGUAL e PYC {$$ = new asignacion.default($1,$3,@1.first_line,@1.last_column);}
             ;
@@ -338,6 +353,12 @@ e
     | GETVALUE PARA e COMA e PARC // Para obtener valor de la lista
     | llamada
     | startwith
+    | TOLOWER PARA e PARC     {$$ = new tolower.default($3,@1.first_line,@1.last_column);}
+    | TOUPPER PARA e PARC     {$$ = new toupper.default($3,@1.first_line,@1.last_column);}
+    | TRUNCATE PARA e PARC     {$$ = new truncate.default($3,@1.first_line,@1.last_column);}
+    | ROUND PARA e PARC     {$$ = new round.default($3,@1.first_line,@1.last_column);}
+    | TYPEOF PARA e PARC     {$$ = new typeofF.default($3,@1.first_line,@1.last_column);}
+    | TOSTRING PARA e PARC     {$$ = new tostringg.default($3,@1.first_line,@1.last_column);}
     ;
 
 

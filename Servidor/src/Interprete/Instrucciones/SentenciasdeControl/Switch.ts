@@ -28,10 +28,12 @@ export default class Switch implements Instruccion{
     ejecutar( controlador : Controlador, ts:TablaSimbolos){
         let ts_local = new TablaSimbolos(ts);
         let bandera = false;
+        let bandera_entro_caso = false;
 
         for(let caso of this.lista_casos){
             if( this.condicion.getTipo(controlador,ts)== caso.valor.getTipo(controlador,ts)){
-                if(this.condicion.getValor(controlador,ts)== caso.valor.getValor(controlador,ts)){
+                if(this.condicion.getValor(controlador,ts)== caso.valor.getValor(controlador,ts)|| bandera_entro_caso){
+                    bandera_entro_caso = true;
                     let res:any = caso.ejecutar(controlador,ts_local)
                     if(res instanceof Break){
                         bandera = true;

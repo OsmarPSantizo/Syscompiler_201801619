@@ -24,6 +24,7 @@ export default class WriteLine implements Instruccion{
         if(tipo_valor == tipo.ENTERO || tipo_valor == tipo.DOBLE || tipo_valor == tipo.CARACTER || tipo_valor == tipo.CADENA || tipo_valor == tipo.BOOLEAN){
 
             let valor = this.expresion.getValor(controlador,ts);
+            
             controlador.append(valor);
         }
     }
