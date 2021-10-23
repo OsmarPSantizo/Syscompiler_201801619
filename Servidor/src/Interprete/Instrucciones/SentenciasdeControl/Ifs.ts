@@ -6,6 +6,8 @@ import { Instruccion } from "../../Interfaces/Instruccion";
 import TablaSimbolos from "../../TablaSimbolos/TablaSimbolos";
 import { tipo } from "../../TablaSimbolos/Tipo";
 import Break from "../SentenciadeTransferencia/Break";
+import Continue from "../SentenciadeTransferencia/Continue";
+import Retorno from "../SentenciadeTransferencia/Return";
 
 export default class Ifs implements Instruccion{
     public condicion : Expresion;
@@ -42,6 +44,22 @@ export default class Ifs implements Instruccion{
                             return null;
                         }
                     }
+                    if(salida instanceof Continue){
+                        if(controlador.sent_ciclica){
+                            return salida;
+                        }else{
+                            let error = new Errores("Semantico",`No se puede ejecutar la sentencia de transferencia continue`,this.linea,this.columna);
+                            controlador.errores.push(error);
+                            controlador.append(`ERROR: Semántico, No se puede ejecutar la sentencia de transferencia continue. En la linea ${this.linea} y columna ${this.columna}`);
+                            return null;
+                        }
+                    }
+                    if(salida instanceof Retorno){
+                        return salida;
+                    }
+                    if( salida != null){
+                        return salida;
+                    }
                 }
             }else{
                 for(let instrucciones of this.lista_instrucciones_elses){ //ejecutamos todas las instrucciones de esta lista
@@ -55,6 +73,12 @@ export default class Ifs implements Instruccion{
                             controlador.append(`ERROR: Semántico, No se puede tener un break dentro de un else. En la linea ${this.linea} y columna ${this.columna}`);
                             return null;
                         }
+                    }
+                    if(salida instanceof Retorno){
+                        return salida;
+                    }
+                    if( salida != null){
+                        return salida;
                     }
                 }
             }

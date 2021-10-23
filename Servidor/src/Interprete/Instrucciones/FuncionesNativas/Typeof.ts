@@ -21,32 +21,30 @@ export default class Typeof implements Expresion{
     
     } 
 
-    getTipo(controlador: Controlador, ts:TablaSimbolos):tipo{
-        let tipo_valor = this.expresion.getTipo(controlador,ts);
-        if(tipo_valor == tipo.ENTERO ||tipo_valor == tipo.DOBLE || tipo_valor == tipo.BOOLEAN || tipo_valor == tipo.CADENA || tipo_valor == tipo.CARACTER ){
-            return  tipo.CADENA
+    get_string_tipo(tipo_valor : tipo):string{
+        if(tipo_valor == tipo.ENTERO){
+            return "int";
+        }else if(tipo_valor == tipo.DOBLE){
+            return "double";
+        }else if(tipo_valor == tipo.BOOLEAN){
+            return "boolean";
+        }else if(tipo_valor == tipo.CARACTER){
+            return "char";
+        }else if(tipo_valor == tipo.CADENA){
+            return "string";
         }else{
-            return tipo.ERROR
+            return "";
         }
+    }
+
+    getTipo(controlador: Controlador, ts:TablaSimbolos):tipo{
+        return tipo.CADENA;
 
     }
-    getValor(controlador: Controlador, ts:TablaSimbolos):tipo{
-        let valor;
-        let tipo_valor:tipo;
+    getValor(controlador: Controlador, ts:TablaSimbolos):string{
+        let tipo_enum = this.expresion.getTipo(controlador,ts);
 
-        tipo_valor = this.expresion.getTipo(controlador,ts);
-        valor = this.expresion.getValor(controlador,ts);
-
-        if(tipo_valor ==tipo.ENTERO){
-            //return "int"
-            return tipo.ENTERO
-        }else{
-            let error = new Errores("Semantico",`La expresión es de un tipo no soportado `,this.linea,this.columna);
-            controlador.errores.push(error);
-            controlador.append(`ERROR: Semántico, La expresión es de un tipo no soportado . En la linea ${this.linea} y columna ${this.columna}`);
-            return tipo.ERROR;
-        }
-
+        return this.get_string_tipo(tipo_enum);
     }
     recorrer(): Nodo{
         throw new Error("Method not implemented");

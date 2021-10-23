@@ -6,6 +6,7 @@ import { Instruccion } from "../../Interfaces/Instruccion";
 import TablaSimbolos from "../../TablaSimbolos/TablaSimbolos";
 import { tipo } from "../../TablaSimbolos/Tipo";
 import Break from "../SentenciadeTransferencia/Break";
+import Continue from "../SentenciadeTransferencia/Continue";
 
 export default class While implements Instruccion{
     public condicion: Expresion;
@@ -27,12 +28,16 @@ export default class While implements Instruccion{
         controlador.sent_ciclica = true;
 
         if(this.condicion.getTipo(controlador,ts) == tipo.BOOLEAN){
+            siguiente:
             while(this.condicion.getValor(controlador,ts)){
                 let ts_local = new TablaSimbolos(ts);
                 for(let instrucciones of this.lista_instrucciones){
                     let salida = instrucciones.ejecutar(controlador,ts_local)
                     if(salida instanceof Break){
                         return salida;
+                    }
+                    if(salida instanceof Continue){
+                        continue siguiente;
                     }
                 }
             }

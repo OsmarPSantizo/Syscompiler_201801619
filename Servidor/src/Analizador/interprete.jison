@@ -82,6 +82,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 "double"             {console.log("Reconocio: "+yytext); return 'DOUBLE'}
 "char"             {console.log("Reconocio: "+yytext); return 'CHAR'}
 "boolean"             {console.log("Reconocio: "+yytext); return 'BOOLEAN'}
+"void"                {console.log("Reconocio: "+yytext); return 'VOID'}
 
 "writeline"             {console.log("Reconocio: "+yytext); return 'WRITELINE'}
 "tolower"             {console.log("Reconocio: "+yytext); return 'TOLOWER'}
@@ -142,18 +143,25 @@ caracter      (\' ({escape2}|{aceptacion2})\')
     const round = require('../Interprete/Instrucciones/FuncionesNativas/Round');
     const typeofF = require('../Interprete/Instrucciones/FuncionesNativas/Typeof');
     const tostringg = require('../Interprete/Instrucciones/FuncionesNativas/Tostring');
+    const casteos = require('../Interprete/Instrucciones/FuncionesNativas/Casteos');
     const declaracion = require('../Interprete/Instrucciones/Declaracion');
     const asignacion = require('../Interprete/Instrucciones/Asignacion');
     const Ifs = require('../Interprete/Instrucciones/SentenciasdeControl/Ifs');
     const While = require('../Interprete/Instrucciones/SentenciasCiclicas/While');
     const ast = require('../Interprete/AST/Ast');
     const tipo = require('../Interprete/TablaSimbolos/Tipo');
+    const simbolo = require('../Interprete/TablaSimbolos/Simbolo');
     const identificador = require('../Interprete/Expresiones/identificador');
     const ternario = require('../Interprete/Expresiones/Ternario');
     const parar = require('../Interprete/Instrucciones/SentenciadeTransferencia/Break');
+    const retornar = require('../Interprete/Instrucciones/SentenciadeTransferencia/Return');
+    const continuar = require('../Interprete/Instrucciones/SentenciadeTransferencia/Continue');
     const Switch = require('../Interprete/Instrucciones/SentenciasdeControl/Switch');
     const caso = require('../Interprete/Instrucciones/SentenciasdeControl/caso');
     const For = require('../Interprete/Instrucciones/SentenciasCiclicas/For');
+    const funcion = require('../Interprete/Instrucciones/Funcion');
+    const llamada = require('../Interprete/Instrucciones/Llamada');
+    const startwith = require('../Interprete/Instrucciones/StartWith');
 
 
 %}
@@ -161,6 +169,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 /* PRECEDENCIA */
 
 %right 'INTERROGACION'
+%right 'PARA'
 %left 'OR'
 %left 'AND'
 %right 'NOT'
@@ -187,13 +196,16 @@ instruccion : declaracion {$$ = $1;}
             | sent_if     {$$ = $1;}
             | sent_while  {$$ = $1;}
             | BREAK PYC   {$$ = new parar.default();}
-            | CONTINUE PYC
-            | RETURN PYC
-            | RETURN e PYC
+            | CONTINUE PYC {$$ = new continuar.default();}
+            | RETURN PYC   {$$ = new retornar.default(null);}
+            | RETURN e PYC {$$ = new retornar.default($2);}
             | sent_switch {$$ = $1;}
             | sent_for    {$$ = $1;}
             | ID DECRE PYC   {$$ = new asignacion.default($1, new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'-',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false),@1.first_line,@1.last_column);}
             | ID INCRE PYC   {$$ = new asignacion.default($1, new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'+',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false),@1.first_line,@1.last_column);}
+            | funciones      {$$ = $1;}
+            | llamada PYC    {$$ = $1;}
+            | startwith PYC  {$$ = $1;}
             | decl_vectores 
             | decl_list_din  
             | agregar_lista  
@@ -218,9 +230,9 @@ decl_vectores: tipo ID CORA CORC IGUAL NEW tipo CORA e CORC PYC
              | tipo ID CORA CORC IGUAL e PYC
              ;
 
-lista_valores: lista_valores COMA e
-             | e
-             ;
+lista_valores: lista_valores COMA e        {$$ = $1; $$.push($3);}
+             | e                           {$$ = new Array(); $$.push($1);}
+             ;          
 
 modi_vector: ID CORA e CORC IGUAL e PYC
            ;
@@ -300,23 +312,24 @@ actualizacion_for : ID DECRE    {$$ = new asignacion.default($1, new aritmetica.
 
 /// Metodos y funciones
 
-funciones : tipo ID PARA lista_parametros PARC LLAVA instrucciones LLAVC
-          | tipo ID PARA PARC LLAVA instrucciones LLAVC
+funciones : tipo ID PARA lista_parametros PARC LLAVA instrucciones LLAVC  {$$ = new funcion.default(2, $1, $2, $4, false, $7, @1.first_line, @1.last_column);}
+          | tipo ID PARA PARC LLAVA instrucciones LLAVC                   {$$ = new funcion.default(2, $1, $2, [], false, $6, @1.first_line, @1.last_column);}
+          | VOID ID PARA lista_parametros PARC LLAVA instrucciones LLAVC  {$$ = new funcion.default(3, $1, $2, $4, true, $7, @1.first_line, @1.last_column);}
+          | VOID ID PARA PARC LLAVA instrucciones LLAVC                   {$$ = new funcion.default(3, $1, $2, [], true, $6, @1.first_line, @1.last_column);}
           ;
 
-lista_parametros : lista_parametros COMA tipo ID
-                 | tipo ID
+lista_parametros : lista_parametros COMA tipo ID  {$$ = $1; $$.push(new simbolo.default(6, $3, $4, null));}
+                 | tipo ID                        {$$ = new Array(); $$.push(new simbolo.default(6, $1, $2, null));}
                  ;
 
 /// Llamadas
 
-llamada : ID PARA lista_valores PARC
-        | ID PARA PARC
+llamada : ID PARA lista_valores PARC       {$$ = new llamada.default($1,$3,@1.first_line, @1.last_column);}
+        | ID PARA PARC                     {$$ = new llamada.default($1,[],@1.first_line, @1.last_column);}
         ;
 
 
-startwith : START WITH ID PARA PARC PYC
-          | START WITH ID PARA lista_valores PARC PYC
+startwith : START WITH llamada     {$$ = new startwith.default($3,@1.first_line, @1.last_column);}
           ;
 
 
@@ -348,7 +361,7 @@ e
     | e INTERROGACION e DOSPUNTOS e {$$ = new ternario.default($1,$3,$5,@1.first_line,@1.last_column);}
     | ID INCRE                  {$$ = new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'+',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false);}
     | ID DECRE                  {$$ = new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'-',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false);}
-  //  | PARA tipo PARC e
+    | PARA tipo PARC e          {$$ = new casteos.default($2,$4, @1.first_line,@1.last_column);}
     | ID CORA e CORC  // PAra obtener valor del vector
     | GETVALUE PARA e COMA e PARC // Para obtener valor de la lista
     | llamada

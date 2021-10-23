@@ -37,7 +37,7 @@ export default class Identificador implements Expresion{
             //reportar error semántico
             let error = new Errores("Semantico",`La variable no existe`,this.linea,this.columna);
             controlador.errores.push(error);
-            controlador.append(`ERROR: Semántico, La variableno existe. En la linea ${this.linea} y columna ${this.columna}`);
+            controlador.append(`ERROR: Semántico, La variable no existe. En la linea ${this.linea} y columna ${this.columna}`);
             return null;
         }
     }
