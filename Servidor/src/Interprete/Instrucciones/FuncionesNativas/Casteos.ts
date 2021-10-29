@@ -56,15 +56,17 @@ export default class Casteos implements Expresion{
 // casteos con int
         if(tipoexp == tipo.ENTERO){
             if(exp_con == tipo.DOBLE){
+                console.log("entero a doble")
                 return parseFloat(Math.round(valor_exp *100/100).toFixed(2))
 
             }else if(exp_con == tipo.CADENA){
                 return valor_exp.toString()
 
-            }else if(exp_con == tipo.CARACTER){               
+            }else if(exp_con == tipo.CARACTER){ 
+                console.log("entero a char")              
                 console.log(String.fromCharCode(valor_exp))
                 let resultado = String.fromCharCode( valor_exp)
-                return resultado.split('')
+                return resultado
 
             }else{
                 console.log("No se puede")
@@ -87,9 +89,11 @@ export default class Casteos implements Expresion{
             }
         }else if (tipoexp == tipo.CARACTER){
             if(exp_con == tipo.ENTERO){
+                console.log(valor_exp.charCodeAt(0))
                 return valor_exp.charCodeAt(0);
 
             }else if(exp_con = tipo.DOBLE){
+                console.log( parseFloat(Math.round(valor_exp.charCodeAt(0) *100/100).toFixed(2)))
                 return parseFloat(Math.round(valor_exp.charCodeAt(0) *100/100).toFixed(2))
             }else{
                 console.log("No se puede")

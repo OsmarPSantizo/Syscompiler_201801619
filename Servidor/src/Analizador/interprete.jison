@@ -145,6 +145,8 @@ caracter      (\' ({escape2}|{aceptacion2})\')
     const tostringg = require('../Interprete/Instrucciones/FuncionesNativas/Tostring');
     const casteos = require('../Interprete/Instrucciones/FuncionesNativas/Casteos');
     const declaracion = require('../Interprete/Instrucciones/Declaracion');
+    const declvectores = require('../Interprete/Instrucciones/DeclaracionVectores');
+    const accvectores = require('../Interprete/Expresiones/AccesoVector');
     const asignacion = require('../Interprete/Instrucciones/Asignacion');
     const Ifs = require('../Interprete/Instrucciones/SentenciasdeControl/Ifs');
     const While = require('../Interprete/Instrucciones/SentenciasCiclicas/While');
@@ -168,7 +170,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 
 /* PRECEDENCIA */
 
-%right 'INTERROGACION'
+%right 'INTERROGACION' 
 %right 'PARA'
 %left 'OR'
 %left 'AND'
@@ -206,7 +208,7 @@ instruccion : declaracion {$$ = $1;}
             | funciones      {$$ = $1;}
             | llamada PYC    {$$ = $1;}
             | startwith PYC  {$$ = $1;}
-            | decl_vectores 
+            | decl_vectores  {$$ = $1;}
             | decl_list_din  
             | agregar_lista  
             | modi_lista 
@@ -225,9 +227,9 @@ tipo : DOUBLE       {$$ = new tipo.default("DOBLE");}
 /// Estructuras de datos
 //Vectores
 
-decl_vectores: tipo ID CORA CORC IGUAL NEW tipo CORA e CORC PYC
-             | tipo ID CORA CORC IGUAL LLAVA lista_valores LLAVC PYC
-             | tipo ID CORA CORC IGUAL e PYC
+decl_vectores: tipo lista_ids CORA CORC IGUAL NEW tipo CORA e CORC PYC          {$$ = new declvectores.default(1,$1,$2,$9,@1.first_line,@1.last_column);}
+             | tipo lista_ids CORA CORC IGUAL LLAVA lista_valores LLAVC PYC     {$$ = new declvectores.default(2,$1,$2,$7,@1.first_line,@1.last_column);}
+             | tipo lista_ids CORA CORC IGUAL e PYC
              ;
 
 lista_valores: lista_valores COMA e        {$$ = $1; $$.push($3);}
@@ -362,7 +364,7 @@ e
     | ID INCRE                  {$$ = new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'+',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false);}
     | ID DECRE                  {$$ = new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'-',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false);}
     | PARA tipo PARC e          {$$ = new casteos.default($2,$4, @1.first_line,@1.last_column);}
-    | ID CORA e CORC  // PAra obtener valor del vector
+    | ID CORA e CORC  {$$ = new accvectores.default($1, $3,@1.first_line,@1.last_column);}
     | GETVALUE PARA e COMA e PARC // Para obtener valor de la lista
     | llamada
     | startwith

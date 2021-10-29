@@ -39,6 +39,16 @@ export default class Asignacion implements Instruccion{
                     ts.getSimbolo(this.identificador)?.setValor(valor);
                 }else if(variable?.tipo.n_tipo == tipo.ENTERO && tipo_valor == tipo.DOBLE){
                     ts.getSimbolo(this.identificador)?.setValor(Math.trunc(valor));
+                }else if(variable?.tipo.n_tipo == tipo.CADENA && tipo_valor == tipo.ENTERO){ // casteo int a string
+                    ts.getSimbolo(this.identificador)?.setValor(valor);
+                }else if(variable?.tipo.n_tipo == tipo.CARACTER && tipo_valor == tipo.ENTERO){ // casteo int a char
+                    ts.getSimbolo(this.identificador)?.setValor(valor);
+                }else if(variable?.tipo.n_tipo == tipo.CADENA && tipo_valor == tipo.DOBLE){ // casteo doble a cadena
+                    ts.getSimbolo(this.identificador)?.setValor(valor);
+                }else if(variable?.tipo.n_tipo == tipo.ENTERO && tipo_valor == tipo.CARACTER){ // casteo char a int
+                    ts.getSimbolo(this.identificador)?.setValor(valor);
+                }else if(variable?.tipo.n_tipo == tipo.DOBLE && tipo_valor == tipo.CARACTER){ // casteo char a double
+                    ts.getSimbolo(this.identificador)?.setValor(valor);
                 }else{
                     let error = new Errores("Semantico",`La variable ${this.identificador} no es del mismo tipo, entonces no se le puede asignar un valor`,this.linea,this.columna);
                     controlador.errores.push(error);

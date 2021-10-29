@@ -50,11 +50,26 @@ export default class Declaracion implements Instruccion{
 
                 }else{
 
-                    if(this.type.n_tipo == tipo.DOBLE && tipo_valor == tipo.ENTERO){
+                    if(this.type.n_tipo == tipo.DOBLE && tipo_valor == tipo.ENTERO ){
                         let nuevo_simbolo = new Simbolo(1, this.type, id,valor);
                         ts.agregar(id,nuevo_simbolo);
                     }else if(this.type.n_tipo == tipo.ENTERO && tipo_valor == tipo.DOBLE){
                         let nuevo_simbolo = new Simbolo(1,this.type, id, Math.trunc(valor));
+                        ts.agregar(id,nuevo_simbolo);
+                    }else if(this.type.n_tipo == tipo.CADENA && tipo_valor == tipo.ENTERO){ // casteo int a string
+                        let nuevo_simbolo = new Simbolo(1,this.type, id, valor);
+                        ts.agregar(id,nuevo_simbolo);
+                    }else if(this.type.n_tipo == tipo.CARACTER && tipo_valor == tipo.ENTERO){ // casteo int a char
+                        let nuevo_simbolo = new Simbolo(1,this.type, id, valor);
+                        ts.agregar(id,nuevo_simbolo);
+                    }else if(this.type.n_tipo == tipo.CADENA && tipo_valor == tipo.DOBLE){ // casteo doble a cadena
+                        let nuevo_simbolo = new Simbolo(1,this.type, id, valor);
+                        ts.agregar(id,nuevo_simbolo);
+                    }else if(this.type.n_tipo == tipo.ENTERO && tipo_valor == tipo.CARACTER){ // casteo char a int
+                        let nuevo_simbolo = new Simbolo(1,this.type, id, valor);
+                        ts.agregar(id,nuevo_simbolo);
+                    }else if(this.type.n_tipo == tipo.DOBLE && tipo_valor == tipo.CARACTER){ // casteo char a double
+                        let nuevo_simbolo = new Simbolo(1,this.type, id, valor);
                         ts.agregar(id,nuevo_simbolo);
                     }else{
                         let error = new Errores("Semantico",`La variable ${id} posee un tipo no valido.`,this.linea,this.columna);

@@ -48,7 +48,9 @@ export default class Ast implements Instruccion{
                 instruccion.ejecutar(controlador,ts);
                 bandera_start = true;
             }else if(bandera_start){
-                //No se puede colocar dos start
+                let error = new Errores("Semantico",`Solo se puede colocar un startwith.`,0,0);
+                controlador.errores.push(error);
+                controlador.append(`ERROR: Semántico, Solo se puede colocar un startwith.`);
                 console.log("no se puede");
             }
             
