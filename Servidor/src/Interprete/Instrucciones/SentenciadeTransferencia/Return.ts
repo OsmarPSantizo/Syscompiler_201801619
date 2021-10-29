@@ -25,7 +25,7 @@ export default class Retorno implements Instruccion{
     }
 
     recorrer(): Nodo{
-        throw new Error ("Method not implemented.");
+        return new Nodo("Return","");
     }
 
 }

@@ -29,7 +29,16 @@ export default class WriteLine implements Instruccion{
         }
     }
     recorrer(): Nodo{
-        throw new Error("Method not implemente");
+        let padre = new Nodo("Writeline",""); //se le asigna el nombre a identificar
+        padre.AddHijo(new Nodo("Writeline","")); // writeline("Hola mundo");
+        padre.AddHijo(new Nodo("(",""));
+
+        let hijo = new Nodo("exp","");
+        hijo.AddHijo(this.expresion.recorrer()); // exp -> primitivo -> "hola mundo"
+
+        padre.AddHijo(hijo);
+        padre.AddHijo(new Nodo(")","")); // Writeline --> writeline->( exp -> primitivo -> "hola mundo")
+        return padre;
     }
 
 }

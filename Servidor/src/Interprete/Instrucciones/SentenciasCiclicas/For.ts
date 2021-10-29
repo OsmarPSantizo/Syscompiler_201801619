@@ -56,7 +56,23 @@ export default class For implements Instruccion {
 
     recorrer(): Nodo{
 
-        throw new Error("Method not implemented.")
+        let padre = new Nodo("SENT FOR", "");
+
+       padre.AddHijo(new Nodo("for", ""));
+       padre.AddHijo(new Nodo("(", ""));
+       padre.AddHijo(this.declarar_asignacion.recorrer());
+       padre.AddHijo(this.condicion.recorrer());
+       padre.AddHijo(this.actualizacion.recorrer());
+       padre.AddHijo(new Nodo(")", ""));
+       
+       let hijo_instrucciones = new Nodo("Instrucciones","");
+        for(let inst of this.lista_instrucciones){
+            hijo_instrucciones.AddHijo(inst.recorrer());
+        }
+
+        padre.AddHijo(hijo_instrucciones);
+
+       return padre;
     }
 
 

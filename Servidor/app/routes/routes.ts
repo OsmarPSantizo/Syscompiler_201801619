@@ -1,5 +1,6 @@
 import express = require('express');
 import Ast from '../../src/Interprete/AST/Ast';
+import Nodo from '../../src/Interprete/AST/Nodo';
 import Controlador from '../../src/Interprete/Controlador';
 import TablaSimbolos from '../../src/Interprete/TablaSimbolos/TablaSimbolos';
 
@@ -40,6 +41,22 @@ router.post('/ejecutar',function(req, res){
             
         
         res.status(200).json({consola : controlador.consola})
+
+    }catch(error){
+        console.log(error);
+        res.status(500).json({resultado : "Se ha producido un error"})
+    }
+})
+
+
+router.post('/recorrer',function(req, res){
+    try{
+        const {input} = req.body;
+        console.log(input);
+        let ast:Ast = interprete.parse(input);
+        let nodo_ast : Nodo = ast.recorrer();
+        let grafo = nodo_ast.GraficarSintactico();
+        res.status(200).json({ast :grafo})
 
     }catch(error){
         console.log(error);

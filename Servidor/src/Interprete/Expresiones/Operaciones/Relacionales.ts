@@ -490,6 +490,10 @@ export default class Relacional extends Operacion implements Expresion{
 
 }
     recorrer(): Nodo{
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("CONDICION","");
+            padre.AddHijo(this.exp1.recorrer());
+            padre.AddHijo(new Nodo(this.signo_operador, ""));
+            padre.AddHijo(this.exp2.recorrer());
+        return padre;
     }
 }

@@ -21,6 +21,6 @@ export default class StartWith implements Instruccion{
         this.llamada.ejecutar(controlador,ts);
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        return new Nodo("START WITH","");
     }
 }

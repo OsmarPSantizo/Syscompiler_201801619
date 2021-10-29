@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as ReactBoostrap from "react-bootstrap";
-import {javascript} from '@codemirror/lang-javascript'
+import {Graphviz} from 'graphviz-react';
+import {TransformWrapper,TransformComponent} from "react-zoom-pan-pinch";
+
 
 
 import CodeMirror from "@uiw/react-codemirror";
@@ -15,6 +17,7 @@ class App extends Component {
       runCode: false,
       outputText:'console.log("helloWorld")',
       value:'',
+      dot : `digraph { }`
       
     };
     this.handleChange = this.handleChange.bind(this);
@@ -43,6 +46,32 @@ class App extends Component {
       });
     
   }
+
+  generararbolast = (e) =>{
+    this.setState({runCode:true})
+
+    const data ={
+      "input" : this.state.outputText
+    }
+
+    fetch('http://localhost:3100/api/recorrer',{
+      method: 'POST',
+      headers:{"Content-Type" : "application/json"},
+      body: JSON.stringify(data)
+      
+    })
+      .then(response => response.json())
+      .then(data =>{
+        var datitos = JSON.stringify(data);
+        this.setState({dot : JSON.parse(datitos).ast})
+        console.log('recibido', data);
+        
+
+      });
+    
+  }
+
+
   state = {
     data: null
   };
@@ -119,7 +148,7 @@ TextFile =() =>{
   <ReactBoostrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <ReactBoostrap.Navbar.Collapse id="responsive-navbar-nav">
     <ReactBoostrap.Nav className="me-auto">
-      <ReactBoostrap.Nav.Link onClick={console.log("Hola")}>Crear Archivos</ReactBoostrap.Nav.Link>
+    <ReactBoostrap.Button variant="secondary" onClick={this.runCode}>Secondary</ReactBoostrap.Button>{' '}
       <ReactBoostrap.Nav ><input  class="btn btn-secondary active" type="file" id="file-input" onChange = {this.subirArchivo} /></ReactBoostrap.Nav>
  
       
@@ -130,7 +159,7 @@ TextFile =() =>{
       <ReactBoostrap.NavDropdown title="Reportes" id="collasible-nav-dropdown">
         <ReactBoostrap.NavDropdown.Item href="#action/3.1">Reporte de Errores</ReactBoostrap.NavDropdown.Item>
         <ReactBoostrap.NavDropdown.Item href="#action/3.3">Reporte de Tabla de Simbolos</ReactBoostrap.NavDropdown.Item>
-        <ReactBoostrap.NavDropdown.Item href="#action/3.2">Generar Árbol AST</ReactBoostrap.NavDropdown.Item>
+        <ReactBoostrap.NavDropdown.Item onClick={this.generararbolast}>Generar Árbol AST</ReactBoostrap.NavDropdown.Item>
         
         
       </ReactBoostrap.NavDropdown>
@@ -139,7 +168,7 @@ TextFile =() =>{
   </ReactBoostrap.Navbar.Collapse>
   </ReactBoostrap.Container>
 </ReactBoostrap.Navbar>
-      
+
       
 
     
@@ -210,7 +239,7 @@ TextFile =() =>{
             <th>Columna</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody> 
           <tr>
             <td>1</td>
             <td>----</td>
@@ -220,10 +249,25 @@ TextFile =() =>{
           </tr>
         </tbody>
       </ReactBoostrap.Table>
+     
+      
 
 
+
+      <div  >
+        <h1>Arbol AST</h1>
+        <div >
+        <TransformWrapper defaultScale={5} >
+          <TransformComponent>
+            <Graphviz   onChange={this.handleChange} dot={this.state.dot} />
+          </TransformComponent>
+        </TransformWrapper>
+        </div>
+        
+        </div>
 
       </div>
+      
         
       
       

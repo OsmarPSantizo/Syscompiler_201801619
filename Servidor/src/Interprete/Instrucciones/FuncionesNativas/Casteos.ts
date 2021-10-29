@@ -106,7 +106,17 @@ export default class Casteos implements Expresion{
     }
 
     recorrer():Nodo{
-        throw new Error("Method not implemented")
+        
+        let padre = new Nodo("Casteo",""); 
+        padre.AddHijo(new Nodo("(",""));
+        padre.AddHijo(new Nodo(this.tipoo.nombre_tipo,""));
+        padre.AddHijo(new Nodo(")","")); 
+        let hijo = new Nodo("exp","");
+        hijo.AddHijo(this.expresion.recorrer()); 
+
+        padre.AddHijo(hijo);
+        
+        return padre;
     }
 
 

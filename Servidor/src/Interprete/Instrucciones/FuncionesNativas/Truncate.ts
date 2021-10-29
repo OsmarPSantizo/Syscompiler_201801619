@@ -48,7 +48,16 @@ export default class Truncate implements Expresion{
 
     }
     recorrer(): Nodo{
-        throw new Error("Method not implemented");
+        let padre = new Nodo("Truncate",""); 
+        padre.AddHijo(new Nodo("truncate","")); 
+        padre.AddHijo(new Nodo("(",""));
+
+        let hijo = new Nodo("exp","");
+        hijo.AddHijo(this.expresion.recorrer()); 
+
+        padre.AddHijo(hijo);
+        padre.AddHijo(new Nodo(")","")); 
+        return padre;
     }
 
 }

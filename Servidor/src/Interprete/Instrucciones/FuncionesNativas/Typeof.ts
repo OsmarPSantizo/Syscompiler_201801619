@@ -47,7 +47,16 @@ export default class Typeof implements Expresion{
         return this.get_string_tipo(tipo_enum);
     }
     recorrer(): Nodo{
-        throw new Error("Method not implemented");
+        let padre = new Nodo("Typeof",""); 
+        padre.AddHijo(new Nodo("typeof","")); 
+        padre.AddHijo(new Nodo("(",""));
+
+        let hijo = new Nodo("exp","");
+        hijo.AddHijo(this.expresion.recorrer()); 
+
+        padre.AddHijo(hijo);
+        padre.AddHijo(new Nodo(")","")); 
+        return padre;
     }
 
 }

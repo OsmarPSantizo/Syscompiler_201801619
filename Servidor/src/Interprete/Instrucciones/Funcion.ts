@@ -46,7 +46,23 @@ export default class Funcion extends Simbolo implements Instruccion{
     }
 
     recorrer(): Nodo{
-        throw new Error("Method not implemented");
+        let padre = new Nodo("Funcion","");
+        padre.AddHijo(new Nodo(this.tipo.nombre_tipo, ""));
+        padre.AddHijo(new Nodo(this.identificador, ""));
+
+        padre.AddHijo(new Nodo("(",""));
+        //Agregar nodos parametros solo si hay
+        padre.AddHijo(new Nodo(")",""));
+        padre.AddHijo(new Nodo("{",""));
+
+        let hijo_instrucciones = new Nodo("Instrucciones","");
+        for(let inst of this.lista_instrucciones){
+            hijo_instrucciones.AddHijo(inst.recorrer());
+        }
+
+        padre.AddHijo(hijo_instrucciones);
+        padre.AddHijo(new Nodo("}",""));
+        return padre
     }
 
 }

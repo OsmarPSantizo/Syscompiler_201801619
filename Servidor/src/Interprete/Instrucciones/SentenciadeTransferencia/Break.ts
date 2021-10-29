@@ -14,6 +14,6 @@ export default class Break implements Instruccion{
     }
 
     recorrer(): Nodo{
-        throw new Error("method not implemented");
+        return new Nodo("Break","");
     }
 }

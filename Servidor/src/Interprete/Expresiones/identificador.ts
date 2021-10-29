@@ -42,7 +42,10 @@ export default class Identificador implements Expresion{
         }
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Identificador","");
+        padre.AddHijo(new Nodo(this.identificador,""));
+
+        return padre;
     }
 
 }
