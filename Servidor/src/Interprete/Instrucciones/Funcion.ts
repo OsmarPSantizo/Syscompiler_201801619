@@ -47,11 +47,27 @@ export default class Funcion extends Simbolo implements Instruccion{
 
     recorrer(): Nodo{
         let padre = new Nodo("Funcion","");
-        padre.AddHijo(new Nodo(this.tipo.nombre_tipo, ""));
+        if(this.tipo.nombre_tipo == undefined){
+            padre.AddHijo(new Nodo("VOID",""));    
+        }else{
+            padre.AddHijo(new Nodo(this.tipo.nombre_tipo, ""));
+        }
+        
         padre.AddHijo(new Nodo(this.identificador, ""));
 
         padre.AddHijo(new Nodo("(",""));
         //Agregar nodos parametros solo si hay
+        
+        if(this.lista_params == undefined){
+
+        }else{
+            let hijo_parametros = new Nodo("Parametros","");
+            for (let para of this.lista_params){
+                hijo_parametros.AddHijo(new Nodo("parametro",""));
+            }
+            padre.AddHijo(hijo_parametros);
+        }
+        
         padre.AddHijo(new Nodo(")",""));
         padre.AddHijo(new Nodo("{",""));
 

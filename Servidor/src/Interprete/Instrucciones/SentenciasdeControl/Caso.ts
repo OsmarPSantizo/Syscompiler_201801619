@@ -33,7 +33,20 @@ export default class Caso implements Instruccion{
         }    
 
         recorrer(): Nodo{
-            throw new Error("Method not implemented.")
+            let padre = new Nodo("CASO","");
+        padre.AddHijo(new Nodo("case",""));
+        padre.AddHijo(this.valor.recorrer());
+        padre.AddHijo(new Nodo(":",""));
+
+        let hijo_instrucciones = new Nodo("Instrucciones","");
+        for(let inst of this.instrucciones){
+            hijo_instrucciones.AddHijo(inst.recorrer());
+        }
+        padre.AddHijo(hijo_instrucciones);
+        
+
+
+        return padre;
 
         }
 

@@ -88,7 +88,29 @@ export default class Ifs implements Instruccion{
 
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented");
+        let padre = new Nodo("SENT IF","");
+        padre.AddHijo(new Nodo("if",""));
+        padre.AddHijo(new Nodo("(",""));
+        padre.AddHijo(this.condicion.recorrer());
+        padre.AddHijo(new Nodo(")",""));
+        padre.AddHijo(new Nodo("{",""));
+        let hijo_instrucciones = new Nodo("Instrucciones","");
+        for(let inst of this.lista_instrucciones_ifs){
+            hijo_instrucciones.AddHijo(inst.recorrer());
+        }
+        padre.AddHijo(hijo_instrucciones);
+        padre.AddHijo(new Nodo("}",""));
+        padre.AddHijo(new Nodo("else",""));
+        padre.AddHijo(new Nodo("{",""));
+        let hijo_instrucciones2 = new Nodo("Instrucciones","");
+        for(let inst of this.lista_instrucciones_elses){
+            hijo_instrucciones2.AddHijo(inst.recorrer());
+        }
+        padre.AddHijo(hijo_instrucciones2);
+        padre.AddHijo(new Nodo("}",""));
+
+
+        return padre;
     }
 
 }

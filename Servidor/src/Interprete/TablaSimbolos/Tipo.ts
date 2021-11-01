@@ -36,7 +36,7 @@ export default class Tipo{
         }else if(this.nombre_tipo == 'BOOLEAN'){
             return tipo.BOOLEAN;
         }else if(this.nombre_tipo == 'VOID'){
-            return tipo.BOOLEAN;
+            return tipo.VOID;
         }else{
             return tipo.ERROR;
         }

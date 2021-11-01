@@ -136,8 +136,16 @@ export default class Llamada implements Instruccion , Expresion{
         let padre = new Nodo("Llamada",""); 
         padre.AddHijo(new Nodo(this.identificador,""));
         padre.AddHijo(new Nodo("(",""));
+        
+        if(this.parametros == undefined){
 
-        //TODO: AGREGAR NODOS HIJOS DE PARAMETROS
+        }else{
+            let hijo_parametros = new Nodo("Parametros","");
+            for (let para of this.parametros){
+                hijo_parametros.AddHijo(new Nodo("parametro",""));
+            }
+            padre.AddHijo(hijo_parametros);
+        }
         
         padre.AddHijo(new Nodo(")",""));
         

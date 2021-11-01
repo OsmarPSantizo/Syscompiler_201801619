@@ -98,6 +98,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 "break"                    {console.log("Reconocio: "+yytext); return 'BREAK'}
 "switch"                  {console.log("Reconocio: "+yytext); return 'SWITCH'} 
 "case"                    {console.log("Reconocio: "+yytext); return 'CASE'} 
+"do"                    {console.log("Reconocio: "+yytext); return 'DO'} 
 "default"                 {console.log("Reconocio: "+yytext); return 'DEFAULT'} 
 "for"                     {console.log("Reconocio: "+yytext); return 'FOR'} 
 "dynamiclist"             {console.log("Reconocio: "+yytext); return 'DYNAMICLIST'} 
@@ -150,6 +151,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
     const asignacion = require('../Interprete/Instrucciones/Asignacion');
     const Ifs = require('../Interprete/Instrucciones/SentenciasdeControl/Ifs');
     const While = require('../Interprete/Instrucciones/SentenciasCiclicas/While');
+    const Dowhilee = require('../Interprete/Instrucciones/SentenciasCiclicas/DoWhile');
     const ast = require('../Interprete/AST/Ast');
     const tipo = require('../Interprete/TablaSimbolos/Tipo');
     const simbolo = require('../Interprete/TablaSimbolos/Simbolo');
@@ -203,6 +205,7 @@ instruccion : declaracion {$$ = $1;}
             | RETURN e PYC {$$ = new retornar.default($2);}
             | sent_switch {$$ = $1;}
             | sent_for    {$$ = $1;}
+            | sent_do_while PYC {$$ = $1;}
             | ID DECRE PYC   {$$ = new asignacion.default($1, new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'-',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false),@1.first_line,@1.last_column);}
             | ID INCRE PYC   {$$ = new asignacion.default($1, new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'+',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false),@1.first_line,@1.last_column);}
             | funciones      {$$ = $1;}
@@ -212,6 +215,7 @@ instruccion : declaracion {$$ = $1;}
             | decl_list_din  
             | agregar_lista  
             | modi_lista 
+            
             ;
 
 declaracion : tipo lista_ids IGUAL e PYC    {$$ = new declaracion.default($1,$2,$4,@1.first_line,@1.last_column);}
@@ -268,7 +272,7 @@ tolower : TOLOWER PARA e PARC PYC   {$$ = new tolower.default($3,@1.first_line,@
 /// Asignacion
 asignacion : ID IGUAL e PYC {$$ = new asignacion.default($1,$3,@1.first_line,@1.last_column);}
             ;
-
+/// Sentencias de control
 //IF
 sent_if : IF PARA e PARC LLAVA instrucciones LLAVC  {$$ = new Ifs.default($3,$6,[],@1.first_line,@1.last_column);}
         | IF PARA e PARC LLAVA instrucciones LLAVC ELSE LLAVA instrucciones LLAVC {$$ = new Ifs.default($3,$6,$10,@1.first_line,@1.last_column);}
@@ -291,7 +295,7 @@ caso : CASE e DOSPUNTOS instrucciones     {$$ = new caso.default($2,$4,@1.first_
      ;
 
 
-/// Sentencias de control
+/// Sentencias cíclicas
 // While
 sent_while : WHILE PARA e PARC LLAVA instrucciones LLAVC {$$ = new While.default($3,$6,@1.first_line,@1.last_column);}
             ;
@@ -311,6 +315,12 @@ actualizacion_for : ID DECRE    {$$ = new asignacion.default($1, new aritmetica.
                   | ID INCRE    {$$ = new asignacion.default($1, new aritmetica.default(new identificador.default($1,@1.first_line,@1.last_column),'+',new primitivo.default(1,'ENTERO',@1.first_line,@1.last_column),@1.first_line,@1.last_column,false),@1.first_line,@1.last_column);}
                   | ID IGUAL e  {$$ = new asignacion.default($1, $3,@1.first_line, @1.last_column);}
                   ;
+// Do-While
+
+sent_do_while : DO LLAVA instrucciones LLAVC WHILE PARA e PARC {$$ = new Dowhilee.default($7,$3,@1.first_line,@1.last_column);}
+              ;
+
+        
 
 /// Metodos y funciones
 

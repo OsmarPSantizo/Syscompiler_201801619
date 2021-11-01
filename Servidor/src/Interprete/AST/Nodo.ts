@@ -69,8 +69,6 @@ export default class Nodo{
             r = r + `node${i} -> node${i}c\n`;
         }
         return r;
-
-
     }
 
 

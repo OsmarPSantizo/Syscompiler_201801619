@@ -69,7 +69,7 @@ export default class For implements Instruccion {
         for(let inst of this.lista_instrucciones){
             hijo_instrucciones.AddHijo(inst.recorrer());
         }
-
+        
         padre.AddHijo(hijo_instrucciones);
 
        return padre;

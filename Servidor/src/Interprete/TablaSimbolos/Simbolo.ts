@@ -26,6 +26,13 @@ export default class Simbolo{
     setValor(valor:any):void{
         this.valor = valor;
     }
+
+    getValor():string{
+        
+        return this.valor;
+    }
+
+
     
 
 }

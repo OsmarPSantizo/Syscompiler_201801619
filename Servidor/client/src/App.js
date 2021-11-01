@@ -254,15 +254,27 @@ TextFile =() =>{
 
 
 
-      <div  >
-        <h1>Arbol AST</h1>
-        <div >
-        <TransformWrapper defaultScale={5} >
-          <TransformComponent>
-            <Graphviz   onChange={this.handleChange} dot={this.state.dot} />
-          </TransformComponent>
-        </TransformWrapper>
+      <div className = "row" >
+        <div className ="col text-center">
+          <h2>Arbol AST</h2>
+          <p className ="mt-3">
+            <div className = "row mt-3 d-flex justify-content-center">
+              <div className = "col-lg-4 text-center text-dark">
+                <TransformWrapper 
+                  defaultScale={1}
+                  defaultPositionX={200}
+                  defaultPositionY ={200} 
+                >
+                  <TransformComponent>
+                    <Graphviz   onChange={this.handleChange} dot={this.state.dot} />
+                  </TransformComponent>
+                </TransformWrapper>
+              </div>
+            </div>
+          </p>
         </div>
+        
+   
         
         </div>
 
