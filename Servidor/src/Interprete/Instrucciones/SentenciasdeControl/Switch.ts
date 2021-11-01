@@ -27,6 +27,15 @@ export default class Switch implements Instruccion{
 
     ejecutar( controlador : Controlador, ts:TablaSimbolos){
         let ts_local = new TablaSimbolos(ts);
+        //PAra agregar las tablas locales
+        if(controlador.tablas.some(x=> ts_local === ts_local)){
+            
+
+        }else{
+            controlador.tablas.push(ts_local)
+            
+        }
+        
         let bandera = false;
         let bandera_entro_caso = false;
 

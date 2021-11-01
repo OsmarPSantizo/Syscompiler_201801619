@@ -26,13 +26,24 @@ export default class While implements Instruccion{
     ejecutar(controlador: Controlador, ts: TablaSimbolos){
         let temp = controlador.sent_ciclica;
         controlador.sent_ciclica = true;
-
+       
         if(this.condicion.getTipo(controlador,ts) == tipo.BOOLEAN){
             siguiente:
             while(this.condicion.getValor(controlador,ts)){
                 let ts_local = new TablaSimbolos(ts);
+                //PAra agregar las tablas locales
+                if(controlador.tablas.some(x=> ts_local === ts_local)){
+                    
+        
+                }else{
+                    controlador.tablas.push(ts_local)
+                    
+                }
+               
+                
                 for(let instrucciones of this.lista_instrucciones){
                     let salida = instrucciones.ejecutar(controlador,ts_local)
+                    
                     if(salida instanceof Break){
                         return salida;
                     }
@@ -64,7 +75,6 @@ export default class While implements Instruccion{
         }
         padre.AddHijo(hijo_instrucciones);
         padre.AddHijo(new Nodo("}",""));
-
         return padre;
     }
 

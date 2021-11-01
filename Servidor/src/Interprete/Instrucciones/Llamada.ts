@@ -63,6 +63,14 @@ export default class Llamada implements Instruccion , Expresion{
         if(ts.existe(this.identificador)){
             //creamos una tabla de simbolos local
             let ts_local = new TablaSimbolos(ts);
+            if(controlador.tablas.some(x=> ts_local === ts_local)){
+                
+    
+            }else{
+                controlador.tablas.push(ts_local)
+                
+            }
+            
             // obtiene el simbolo del método
             let simbolo_funcion = ts.getSimbolo(this.identificador) as Funcion;
 
@@ -119,6 +127,7 @@ export default class Llamada implements Instruccion , Expresion{
                     // si son del mismo tipo se guarda cada parametro con su valor en su tabla de simbolos
                     let simbolo = new Simbolo(aux.simbolo, aux.tipo, aux_id,aux_valor_exp);
                     ts_local.agregar(aux_id, simbolo);
+                    
 
                 }
             }

@@ -34,8 +34,6 @@ export default class Ast implements Instruccion{
 
 
 
-
-
         //2da pasada. Se ejecuta las declaraciones de variables
         for(let instruccion of this.lista_instrucciones){
             if(instruccion instanceof Declaracion){

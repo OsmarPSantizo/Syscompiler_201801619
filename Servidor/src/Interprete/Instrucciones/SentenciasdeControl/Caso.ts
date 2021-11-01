@@ -24,6 +24,13 @@ export default class Caso implements Instruccion{
     }
     ejecutar(controlador : Controlador, ts:TablaSimbolos){
         let ts_local = new TablaSimbolos(ts);
+        if(controlador.tablas.some(x=> x === ts_local)){
+            
+
+        }else{
+            
+        }
+        
         for(let inst of this.instrucciones){
             let res:any = inst.ejecutar(controlador, ts_local)
                 if(res instanceof Break){

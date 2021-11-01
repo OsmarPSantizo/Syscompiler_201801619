@@ -26,6 +26,11 @@ router.post('/ejecutar',function(req, res){
         let ts_global = new TablaSimbolos(null);
 
         ast.ejecutar(controlador,ts_global);
+        let ts_html = controlador.graficar_ts(controlador,ts_global,"1");
+
+        for(let tablitas of controlador.tablas){
+            ts_html += controlador.graficar_ts(controlador,tablitas,"2")
+        }
 
         /*for(let evaluar of arreglo){
             let valor = evaluar.expresion.getValor(controlador,ts_global);
@@ -40,10 +45,12 @@ router.post('/ejecutar',function(req, res){
         }*/
             
         
-        res.status(200).json({consola : controlador.consola})
+        
+        res.status(200).json({consola : controlador.consola, ts:ts_html});
 
     }catch(error){
-        console.log(error);
+        console.log(error + "sdjklfklsdfjklsdklfklsd");
+       
         res.status(500).json({resultado : "Se ha producido un error"})
     }
 })

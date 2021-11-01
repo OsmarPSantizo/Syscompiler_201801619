@@ -17,8 +17,13 @@ class App extends Component {
       runCode: false,
       outputText:'console.log("helloWorld")',
       value:'',
-      dot : `digraph { }`
+      dot : `digraph { }`,
+      ts : 
+      "<tr>"+
+        "<td colSpan=\"5\">No hay informacion</td>"+
       
+      "</tr>"
+
     };
     this.handleChange = this.handleChange.bind(this);
     
@@ -42,6 +47,7 @@ class App extends Component {
         var datitos = JSON.stringify(data);
         this.setState({value : JSON.parse(datitos).consola})
         console.log('recibido', data);
+        this.setState({ts : JSON.parse(datitos).ts})
 
       });
     
@@ -96,11 +102,10 @@ class App extends Component {
      console.log(contents)
      codigo = contents;
      this.handleChange(event) // Para actualizar el codemirror
-     
-          
+   
    };
   
-  
+
    reader.readAsText(file);
    
    
@@ -204,28 +209,22 @@ TextFile =() =>{
      
       </body>
       <h3  align="left">Tabla de Simbolos </h3>
-      <ReactBoostrap.Table striped bordered hover variant="dark" size="sm">
-     
-        <thead>
+      
+      
+      
+      <ReactBoostrap.Table data ={this.state.ts} striped bordered hover variant="dark" size="sm">
+      <thead>
           <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Tipo Valor</th>
-            <th>Fila</th>
-            <th>Columna</th>
+            <th>Identificador</th>
+            <th>Rol</th>
+            <th>Tipo</th>
             <th>Ambito</th>
+            <th>Parametros</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>----</td>
-            <td>----</td>
-            <td>----</td>
-            <td>----</td>
-            <td>----</td>
-          </tr>
-        </tbody>
+        <tbody dangerouslySetInnerHTML={{ __html: this.state.ts }}></tbody>
+      
+        
       </ReactBoostrap.Table>
       <h3 align="left" >Tabla de Errores léxicos, Sintacticos y Semánticos</h3>
       <ReactBoostrap.Table striped bordered hover variant="dark" size="sm">

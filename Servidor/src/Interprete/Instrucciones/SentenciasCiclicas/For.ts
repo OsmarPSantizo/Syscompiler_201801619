@@ -28,6 +28,14 @@ export default class For implements Instruccion {
 
     ejecutar(controlador:Controlador, ts: TablaSimbolos){
         let ts_local = new TablaSimbolos(ts);
+        if(controlador.tablas.some(x=> x === ts_local)){
+
+        }else{
+            controlador.tablas.push(ts_local)
+        }
+        
+        
+         
         let temp = controlador.sent_ciclica;
         controlador.sent_ciclica = true;
 
@@ -51,6 +59,10 @@ export default class For implements Instruccion {
             controlador.append(`ERROR: Semántico, La condicion no es booleana. En la linea ${this.linea} y columna ${this.columna}`);
             return null;
         }
+
+
+
+        
         
     }
 

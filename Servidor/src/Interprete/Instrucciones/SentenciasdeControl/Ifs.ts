@@ -27,7 +27,19 @@ export default class Ifs implements Instruccion{
     }
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos){
+        
         let ts_local = new TablaSimbolos(ts); //Creamos una tabla de simbolos local que se ejecute solo dentro del if
+        //PAra agregar las tablas locales
+        if(controlador.tablas.some(x=> ts_local === ts_local)){
+            
+
+        }else{
+            controlador.tablas.push(ts_local)
+            
+        }
+            
+       
+        
         let valor_condicion = this.condicion.getValor(controlador,ts); //true | false
 
         if(this.condicion.getTipo(controlador,ts)==tipo.BOOLEAN){ //vemos si es tipo booleano para entrar a hacer el ciclo
@@ -36,6 +48,7 @@ export default class Ifs implements Instruccion{
                     let salida = instrucciones.ejecutar(controlador,ts_local);
                     if(salida instanceof Break){
                         if(controlador.sent_ciclica){
+                            
                             return salida
                         }else{
                             let error = new Errores("Semantico",`No se puede tener un break dentro de un if`,this.linea,this.columna);
@@ -46,6 +59,7 @@ export default class Ifs implements Instruccion{
                     }
                     if(salida instanceof Continue){
                         if(controlador.sent_ciclica){
+                            
                             return salida;
                         }else{
                             let error = new Errores("Semantico",`No se puede ejecutar la sentencia de transferencia continue`,this.linea,this.columna);
@@ -55,9 +69,11 @@ export default class Ifs implements Instruccion{
                         }
                     }
                     if(salida instanceof Retorno){
+                        
                         return salida;
                     }
                     if( salida != null){
+                        
                         return salida;
                     }
                 }
@@ -66,6 +82,7 @@ export default class Ifs implements Instruccion{
                     let salida = instrucciones.ejecutar(controlador,ts_local);
                     if(salida instanceof Break){ // verificamos si viene break
                         if(controlador.sent_ciclica){
+                            
                             return salida
                         }else{
                             let error = new Errores("Semantico",`No se puede tener un break dentro de un else`,this.linea,this.columna);
@@ -75,9 +92,11 @@ export default class Ifs implements Instruccion{
                         }
                     }
                     if(salida instanceof Retorno){
+                        
                         return salida;
                     }
                     if( salida != null){
+                        
                         return salida;
                     }
                 }

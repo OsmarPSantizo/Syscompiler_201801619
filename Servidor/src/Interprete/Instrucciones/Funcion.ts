@@ -4,6 +4,7 @@ import Controlador from "../Controlador";
 import { Instruccion } from "../Interfaces/Instruccion";
 import Simbolo from "../TablaSimbolos/Simbolo";
 import TablaSimbolos from "../TablaSimbolos/TablaSimbolos";
+
 import Tipo from "../TablaSimbolos/Tipo";
 
 
@@ -33,9 +34,18 @@ export default class Funcion extends Simbolo implements Instruccion{
     ejecutar(controlador:Controlador, ts: TablaSimbolos){
         //con esto mandamos a ejecutar las instrucciones ya que las validaciones para llegar hasta aca se hacen en la llamada
         let ts_local = new TablaSimbolos(ts);
+        if(controlador.tablas.some(x=> ts_local === ts_local)){
+            
+
+        }else{
+            controlador.tablas.push(ts_local)
+            
+        }
+
 
         for(let inst of this.lista_instrucciones){
             let retorno = inst.ejecutar(controlador, ts_local);
+            
 
             if(retorno != null){
                 return retorno;

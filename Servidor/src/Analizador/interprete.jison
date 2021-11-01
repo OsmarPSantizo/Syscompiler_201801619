@@ -1,6 +1,7 @@
 /* Definición lexica */
 %lex
 %options case-insensitive
+%option yylineno
 
 //Expresiones regulares
 num [0-9]+
@@ -124,7 +125,15 @@ caracter      (\' ({escape2}|{aceptacion2})\')
 [\s\r\n\t]            {/*Espacios se ignoran */ }
 
 <<EOF>>               return 'EOF'
-.                     return 'ERROR'
+.                     {console.log("Error Lexico " + yytext 
+                        + "linea "+ yylineno
+                        + "columna " +(yylloc.last_column+1));
+
+                        new errores.default('Lexico','El caracter '+ yytext
+                                + ' no forma parte del lenguaje',
+                                yylineno+1,
+                                yylloc.last_column+1);
+                        }
 
 /lex
 
@@ -153,6 +162,7 @@ caracter      (\' ({escape2}|{aceptacion2})\')
     const While = require('../Interprete/Instrucciones/SentenciasCiclicas/While');
     const Dowhilee = require('../Interprete/Instrucciones/SentenciasCiclicas/DoWhile');
     const ast = require('../Interprete/AST/Ast');
+    const errores = require('../Interprete/AST/Errores');
     const tipo = require('../Interprete/TablaSimbolos/Tipo');
     const simbolo = require('../Interprete/TablaSimbolos/Simbolo');
     const identificador = require('../Interprete/Expresiones/identificador');
@@ -215,6 +225,13 @@ instruccion : declaracion {$$ = $1;}
             | decl_list_din  
             | agregar_lista  
             | modi_lista 
+            | error {console.log("Error Sintactico "  + yytext 
+                           + " linea: " + this._$.first_line
+                           +" columna: "+ this._$.first_column);
+                           
+                           new errores.default("Sintactico", "No se esperaba el caracter "+ 
+                                           this._$.first_line, this._$.first_column);
+                           }
             
             ;
 
