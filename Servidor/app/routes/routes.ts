@@ -49,7 +49,7 @@ router.post('/ejecutar',function(req, res){
         res.status(200).json({consola : controlador.consola, ts:ts_html});
 
     }catch(error){
-        console.log(error + "sdjklfklsdfjklsdklfklsd");
+        
        
         res.status(500).json({resultado : "Se ha producido un error"})
     }

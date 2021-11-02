@@ -24,7 +24,7 @@ export default class Controlador{
 
 
     mostrarerr(controlador:Controlador, errores:Errores):string{
-        console.log("ENtreeeeeeeeeeeeeeee")
+        
         if(errores.descripcion != null){
             console.log(errores.descripcion .toString())
             return errores.descripcion .toString();
