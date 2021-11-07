@@ -6,6 +6,7 @@ import { Instruccion } from "../../Interfaces/Instruccion";
 import TablaSimbolos from "../../TablaSimbolos/TablaSimbolos";
 import { tipo } from "../../TablaSimbolos/Tipo";
 import Break from "../SentenciadeTransferencia/Break";
+import Continue from "../SentenciadeTransferencia/Continue";
 
 
 export default class For implements Instruccion {
@@ -43,12 +44,15 @@ export default class For implements Instruccion {
         
 
         if(this.condicion.getTipo(controlador,ts_local) == tipo.BOOLEAN){
+            siguiente:
             while(this.condicion.getValor(controlador,ts_local)){
                 let ts_local2 = new TablaSimbolos(ts_local);
                 for(let instrucciones of this.lista_instrucciones){
                     let salida = instrucciones.ejecutar(controlador,ts_local2)
                     if(salida instanceof Break){
                         return salida;
+                    }if(salida instanceof Continue){
+                        continue siguiente;
                     }
                 }
                 this.actualizacion.ejecutar(controlador,ts_local);

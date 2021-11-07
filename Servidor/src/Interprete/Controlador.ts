@@ -75,7 +75,6 @@ export default class Controlador{
         }
         
         
-    
         return cuerpohtml;
 
 
