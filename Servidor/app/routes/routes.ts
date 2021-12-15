@@ -3,12 +3,14 @@ import Ast from '../../src/Interprete/AST/Ast';
 import Nodo from '../../src/Interprete/AST/Nodo';
 import Controlador from '../../src/Interprete/Controlador';
 import TablaSimbolos from '../../src/Interprete/TablaSimbolos/TablaSimbolos';
+import os from 'os';
 
 
 
 var gramatica = require('../../src/Analizador/gramatica.js').parser;
 var interprete = require('../../src/Analizador/interprete.js').parser;
 const router = express.Router();
+const fs = require("fs");
 
 router.get('/', function(req,res){
     res.send('HOLA DESDE EL SERVIDOR DEL INTERPRETE');
@@ -62,7 +64,12 @@ router.post('/recorrer',function(req, res){
         console.log(input);
         let ast:Ast = interprete.parse(input);
         let nodo_ast : Nodo = ast.recorrer();
+
         let grafo = nodo_ast.GraficarSintactico();
+       
+
+        fs.writeFileSync("Ast.dot",grafo)
+
         res.status(200).json({ast :grafo})
 
     }catch(error){

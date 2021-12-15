@@ -45,6 +45,9 @@ export default class Ast implements Instruccion{
             if(instruccion instanceof StartWith && !bandera_start){
                 instruccion.ejecutar(controlador,ts);
                 bandera_start = true;
+            
+            } else if(!(instruccion instanceof Declaracion) && !(instruccion instanceof Funcion) && bandera_start){
+                instruccion.ejecutar(controlador,ts);
             }else if(bandera_start){
                 let error = new Errores("Semantico",`Solo se puede colocar un startwith.`,0,0);
                 controlador.errores.push(error);
@@ -52,13 +55,7 @@ export default class Ast implements Instruccion{
                 console.log("no se puede");
             }
             
-            
-            
-            if(!(instruccion instanceof Declaracion) && !(instruccion instanceof Funcion) && !(instruccion instanceof StartWith)){
-                instruccion.ejecutar(controlador,ts);
-            }
-
-            
+                     
         }
     }
     recorrer():Nodo{
